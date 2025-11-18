@@ -21,6 +21,10 @@ public abstract class ActiveBase {
     @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal valor;
 
+    public ActiveBase() {
+
+    }
+
     public ActiveBase(long id, String name, String descripcion, BigDecimal valor) {
         this.id = id;
         this.name = name;

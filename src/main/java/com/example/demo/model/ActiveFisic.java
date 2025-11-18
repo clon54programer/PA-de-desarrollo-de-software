@@ -21,6 +21,10 @@ public class ActiveFisic extends ActiveBase {
     @Column(length = 20)
     private EstadoActivo estado;
 
+    public ActiveFisic() {
+
+    }
+
     public ActiveFisic(long id, String name, String descripcion, BigDecimal valor, EstadoActivo estatus,
             String ubicacion) {
         super(id, name, descripcion, valor);
