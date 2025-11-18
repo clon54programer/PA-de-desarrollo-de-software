@@ -50,6 +50,11 @@ public class MainController {
     // end login
 
     // begin sign up
+    @GetMapping("/sign")
+    public String ShowSignUpForm(Model model) {
+        model.addAttribute("user", new User());
+        return "sign";
+    }
 
     // end sign up
 
