@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.demo.repository.ActivoDigitalRepository;
+import com.example.demo.repository.ActivoFisicoRepository;
 import com.example.demo.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import com.example.demo.model.User;
 
 @Controller
+@SessionAttributes("user_login")
 public class MainController {
 
     @GetMapping("/")
@@ -24,8 +28,17 @@ public class MainController {
 
     // begin of crud of actives
 
+    @Autowired
+    private ActivoFisicoRepository activoFisicoRepo;
+
+    @Autowired
+    private ActivoDigitalRepository activoDigitalRepo;
+
     @GetMapping("/add_active")
     public String ShowAddActivePanel(HttpSession session, Model model) {
+        User usuario = (User) session.getAttribute(USER_LOGIN);
+        model.addAttribute("usuario", usuario);
+
         return "add_active";
     }
 
