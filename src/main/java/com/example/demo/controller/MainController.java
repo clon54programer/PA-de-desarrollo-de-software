@@ -40,11 +40,12 @@ public class MainController {
 
         model.addAttribute("activoFisico", new ActiveFisic());
         model.addAttribute("activoDigital", new ActivoDigital());
+        model.addAttribute("estados", ActiveFisic.EstadoActivo.values());
 
-        return "add_active";
+        return "activo_form";
     }
 
-    @GetMapping("/add_active")
+    @PostMapping("/add_active")
     public String AddActivePanel(@RequestParam("tipo") String tipo,
             @ModelAttribute ActiveFisic activoFisico,
             @ModelAttribute ActivoDigital activoDigital,
