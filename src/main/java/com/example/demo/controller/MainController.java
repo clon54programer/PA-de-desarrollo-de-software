@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.repository.ActivoDigitalRepository;
@@ -15,7 +16,7 @@ import com.example.demo.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
 
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 
 @Controller
 @SessionAttributes("user_login")
@@ -35,16 +36,31 @@ public class MainController {
     private ActivoDigitalRepository activoDigitalRepo;
 
     @GetMapping("/add_active")
-    public String ShowAddActivePanel(HttpSession session, Model model) {
-        User usuario = (User) session.getAttribute(USER_LOGIN);
-        model.addAttribute("usuario", usuario);
+    public String ShowAddActivePanel(Model model) {
+
+        model.addAttribute("activoFisico", new ActiveFisic());
+        model.addAttribute("activoDigital", new ActivoDigital());
 
         return "add_active";
     }
 
     @GetMapping("/add_active")
-    public String AddActivePanel(HttpSession session, Model model) {
-        return "add_active";
+    public String AddActivePanel(@RequestParam("tipo") String tipo,
+            @ModelAttribute ActiveFisic activoFisico,
+            @ModelAttribute ActivoDigital activoDigital,
+            Model model) {
+        if ("fisico".equalsIgnoreCase(tipo)) {
+            activoFisicoRepo.save(activoFisico);
+            model.addAttribute("success", "Activo físico agregado correctamente");
+        } else if ("digital".equalsIgnoreCase(tipo)) {
+            activoDigitalRepo.save(activoDigital);
+            model.addAttribute("success", "Activo digital agregado correctamente");
+        } else {
+            model.addAttribute("error", "Tipo de activo no válido");
+            return "activo_form";
+        }
+
+        return "activo_success";
     }
 
     // end of crud of actives
