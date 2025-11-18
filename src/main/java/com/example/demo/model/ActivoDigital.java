@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -12,7 +14,7 @@ public class ActivoDigital extends ActiveBase {
     @Column(length = 20)
     private String version;
 
-    public ActivoDigital(long id, String name, String descripcion, Double valor, String licencia, String version) {
+    public ActivoDigital(long id, String name, String descripcion, BigDecimal valor, String licencia, String version) {
         super(id, name, descripcion, valor);
         this.licencia = licencia;
         this.version = version;

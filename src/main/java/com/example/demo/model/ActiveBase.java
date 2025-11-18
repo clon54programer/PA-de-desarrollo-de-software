@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -17,9 +19,9 @@ public abstract class ActiveBase {
     private String descripcion;
 
     @Column(precision = 15, scale = 2, nullable = false)
-    private Double valor;
+    private BigDecimal valor;
 
-    public ActiveBase(long id, String name, String descripcion, Double valor) {
+    public ActiveBase(long id, String name, String descripcion, BigDecimal valor) {
         this.id = id;
         this.name = name;
         this.descripcion = descripcion;
@@ -51,11 +53,11 @@ public abstract class ActiveBase {
         this.descripcion = descripcion;
     }
 
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
