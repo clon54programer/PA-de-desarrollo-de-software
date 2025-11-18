@@ -11,30 +11,34 @@ user:
     id: PK
     name: VARCHAR(80)
     password: VARCHAR(24)
-
+# Es la clase base de los activos
 activosBase:
     id: PK
     name: VARCHAR(80)
     descripcion: VARCHAR(255)
     valor: REAL
 
+# Es dispositivo electronico (impresoras, radios, telefonos, pc, etc...) que utiliza la empresa 
 activosFisico:
     ubicacion: VARCHAR(255)
     estado: enum(activo,en mantenimiento, retirao)
 
+# Es software que utiliza la empresa
 activosDigital:
     licencia: VARCHAR(255)
     version: VARCHAR(20)
 
+#Es una vulneralidad detectada en un activo de la empresa
 vulnerabilidad:
     ID: PK
     activo_afectado: FK
     descripcion: TEXT
     cve: VARCHAR(20)
-    fecha_de_descubrimiento:
+    fecha_de_descubrimiento: DATE
     estado: enum(parchada,no_parchada)
     recomendaciones: Lista de FK
 
+# Es una recomendacion que se da para parchear una vulneravilidad
 recomendacion:
     id: PK
     descripcion: TEXT
