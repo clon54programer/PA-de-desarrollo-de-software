@@ -56,6 +56,12 @@ public class MainController {
         return "sign";
     }
 
+    @PostMapping("/sign")
+    public String AddUser(@ModelAttribute User user) {
+        userRepo.save(user);
+        return "sign";
+    }
+
     // end sign up
 
     // begin asignacion de vulnerabiliades y recomendaciones
