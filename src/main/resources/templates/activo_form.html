@@ -34,21 +34,24 @@
         <br /><br />
 
         <!-- Campos específicos de activo físico -->
-        <div id="fisicoFields" style="display:none;">
+        <div id="fisicoFields" style="display:none;" th:object="${activeFisic}">
             <label>Ubicación:</label>
             <input type="text" name="ubicacion" />
             <br />
             <label>Estado:</label>
-            <input type="text" name="estado" />
+            <select th:field="*{estado}">
+                <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}">
+                </option>
+            </select>
         </div>
 
         <!-- Campos específicos de activo digital -->
-        <div id="digitalFields" style="display:none;">
+        <div id="digitalFields" style="display:none;" th:object="${activoDigital}">
             <label>Licencia:</label>
             <input type="text" name="licencia" />
             <br />
-            <label>Proveedor:</label>
-            <input type="text" name="proveedor" />
+            <label>Version:</label>
+            <input type="text" name="version" />
         </div>
 
         <br />
