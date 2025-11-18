@@ -14,6 +14,11 @@ import com.example.demo.model.User;
 @Controller
 public class MainController {
 
+    @GetMapping("/")
+    public String ShowIndex(Model model) {
+        return "index";
+    }
+
     // begin of crud of actives
 
     // end of crud of actives
@@ -23,13 +28,14 @@ public class MainController {
     private UserRepository userRepo;
 
     @GetMapping("/login")
-    public String mostrarLoginForm(Model model) {
+    public String ShowLoginForm(Model model) {
         model.addAttribute("user", new User());
         return "login";
     }
 
+    /// Recibe la informacion para iniciar seccion
     @PostMapping("/login")
-    public String procesarLogin(@ModelAttribute User user, Model model) {
+    public String SendLogin(@ModelAttribute User user, Model model) {
         User usuarioBD = userRepo.findByName(user.getName());
 
         if (usuarioBD == null || !usuarioBD.getPassword().equals(user.getPassword())) {
@@ -38,7 +44,7 @@ public class MainController {
         }
 
         model.addAttribute("usuario", usuarioBD);
-        return "home";
+        return "index";
     }
 
     // end login
