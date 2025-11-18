@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.repository.UserRepository;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.example.demo.model.User;
 
 @Controller
@@ -21,11 +24,22 @@ public class MainController {
 
     // begin of crud of actives
 
+    @GetMapping("/add_active")
+    public String ShowAddActivePanel(HttpSession session, Model model) {
+        return "add_active";
+    }
+
+    @GetMapping("/add_active")
+    public String AddActivePanel(HttpSession session, Model model) {
+        return "add_active";
+    }
+
     // end of crud of actives
 
     // begin login
     @Autowired
     private UserRepository userRepo;
+    private final String USER_LOGIN = "user_login";
 
     @GetMapping("/login")
     public String ShowLoginForm(Model model) {
@@ -44,6 +58,7 @@ public class MainController {
         }
 
         model.addAttribute("usuario", usuarioBD);
+        model.addAttribute(USER_LOGIN, usuarioBD);
         model.addAttribute("success", "Login exitoso");
         return "index";
     }
