@@ -12,10 +12,11 @@ public class User {
     @Column(length = 80, nullable = false)
     private String name;
 
-    
-
     @Column(length = 255, nullable = false) // almacenar hash de contraseña
     private String password;
+
+    public User() {
+    }
 
     public User(long id, String name, String password) {
         this.id = id;
