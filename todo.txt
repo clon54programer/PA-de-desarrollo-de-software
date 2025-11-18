@@ -1,0 +1,4 @@
+- crud de activos
+- login
+- registro
+- asignacion de vulnerabilidades y recomendaciones
