@@ -44,6 +44,7 @@ public class MainController {
         }
 
         model.addAttribute("usuario", usuarioBD);
+        model.addAttribute("success", "Login exitoso");
         return "index";
     }
 
