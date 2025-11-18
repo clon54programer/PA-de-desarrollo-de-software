@@ -9,7 +9,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 80, nullable = false)
+    @Column(length = 80, nullable = false, unique = true)
     private String name;
 
     @Column(length = 255, nullable = false) // almacenar hash de contraseña
