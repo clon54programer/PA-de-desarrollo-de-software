@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Nuevo Activo</title>
+    <script>
+        function mostrarCampos() {
+            var tipo = document.getElementById("tipo").value;
+            document.getElementById("fisicoFields").style.display = (tipo === "fisico") ? "block" : "none";
+            document.getElementById("digitalFields").style.display = (tipo === "digital") ? "block" : "none";
+        }
+    </script>
+</head>
+
+<body>
+    <h2>Registrar Activo</h2>
+    <form th:action="@{/activos/nuevo}" method="post">
+        <label>Tipo de activo:</label>
+        <select id="tipo" name="tipo" onchange="mostrarCampos()">
+            <option value="fisico">Físico</option>
+            <option value="digital">Digital</option>
+        </select>
+        <br /><br />
+
+        <!-- Campos comunes -->
+        <label>Nombre:</label>
+        <input type="text" name="name" />
+        <br />
+        <label>Descripción:</label>
+        <input type="text" name="descripcion" />
+        <br />
+        <label>Valor:</label>
+        <input type="number" step="0.01" name="valor" />
+        <br /><br />
+
+        <!-- Campos específicos de activo físico -->
+        <div id="fisicoFields" style="display:none;">
+            <label>Ubicación:</label>
+            <input type="text" name="ubicacion" />
+            <br />
+            <label>Estado:</label>
+            <input type="text" name="estado" />
+        </div>
+
+        <!-- Campos específicos de activo digital -->
+        <div id="digitalFields" style="display:none;">
+            <label>Licencia:</label>
+            <input type="text" name="licencia" />
+            <br />
+            <label>Proveedor:</label>
+            <input type="text" name="proveedor" />
+        </div>
+
+        <br />
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+
+</html>
