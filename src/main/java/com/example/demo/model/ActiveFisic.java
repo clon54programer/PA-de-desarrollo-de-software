@@ -26,4 +26,20 @@ public class ActiveFisic extends ActiveBase {
     }
 
     // Getters y Setters
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public EstadoActivo getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoActivo estado) {
+        this.estado = estado;
+    }
+
 }
