@@ -10,13 +10,13 @@ tablas de la base de datos, soft_pa
 user:
     id: PK
     name: VARCHAR(80)
-    password: VARCHAR(24)
+    password: VARCHAR(255)
 # Es la clase base de los activos
 activosBase:
     id: PK
     name: VARCHAR(80)
     descripcion: VARCHAR(255)
-    valor: REAL
+    valor: DECIMAL(15,2)
 
 # Es dispositivo electronico (impresoras, radios, telefonos, pc, etc...) que utiliza la empresa 
 activosFisico:
@@ -36,7 +36,10 @@ vulnerabilidad:
     cve: VARCHAR(20)
     fecha_de_descubrimiento: DATE
     estado: enum(parchada,no_parchada)
-    recomendaciones: Lista de FK
+
+vulnerabilidad_recomendacion:
+    vulnerabilidad_id: int
+    recomendacion_id: int FK (lista)
 
 # Es una recomendacion que se da para parchear una vulneravilidad
 recomendacion:
