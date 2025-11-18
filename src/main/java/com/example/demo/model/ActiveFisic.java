@@ -19,5 +19,11 @@ public class ActiveFisic extends ActiveBase {
     @Column(length = 20)
     private EstadoActivo estado;
 
+    public ActiveFisic(long id, String name, String descripcion, Double valor, EstadoActivo estatus, String ubicacion) {
+        super(id, name, descripcion, valor);
+        this.estado = estatus;
+        this.ubicacion = ubicacion;
+    }
+
     // Getters y Setters
 }

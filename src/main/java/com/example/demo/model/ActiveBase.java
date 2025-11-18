@@ -19,6 +19,13 @@ public abstract class ActiveBase {
     @Column(precision = 15, scale = 2, nullable = false)
     private Double valor;
 
+    public ActiveBase(long id, String name, String descripcion, Double valor) {
+        this.id = id;
+        this.name = name;
+        this.descripcion = descripcion;
+        this.valor = valor;
+    }
+
     // Getters y Setters
     public Long getId() {
         return id;
