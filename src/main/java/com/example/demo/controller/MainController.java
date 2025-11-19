@@ -78,7 +78,7 @@ public class MainController {
     public String GetFisicActive(Model model) {
         List<ActiveFisic> activos_fisicos = activoFisicoRepo.findAll();
         model.addAttribute("activos_fisicos", activos_fisicos);
-        return "show_digital_activos";
+        return "show_fisic_activos";
     }
 
     // end of crud of actives
