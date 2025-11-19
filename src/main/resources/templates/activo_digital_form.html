@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Nuevo Activo</title>
+
+</head>
+
+<body>
+    <h2>Registrar Activo</h2>
+    <form th:action="@{/add_active}" method="post">
+        <label>Tipo de activo:</label>
+
+
+        <!-- Campos comunes -->
+        <label>Nombre:</label>
+        <input type="text" name="name" />
+        <br />
+        <label>Descripción:</label>
+        <input type="text" name="descripcion" />
+        <br />
+        <label>Valor:</label>
+        <input type="number" step="0.01" name="valor" />
+        <br /><br />
+
+        <!-- Campos específicos de activo digital -->
+        <div id="digitalFields" style="display:none;" th:object="${activoDigital}">
+            <label>Licencia:</label>
+            <input type="text" name="licencia" />
+            <br />
+            <label>Version:</label>
+            <input type="text" name="version" />
+        </div>
+
+        <br />
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+
+</html>

@@ -3,24 +3,14 @@
 
 <head>
     <title>Nuevo Activo</title>
-    <script>
-        function mostrarCampos() {
-            var tipo = document.getElementById("tipo").value;
-            document.getElementById("fisicoFields").style.display = (tipo === "fisico") ? "block" : "none";
-            document.getElementById("digitalFields").style.display = (tipo === "digital") ? "block" : "none";
-        }
-    </script>
+
 </head>
 
 <body>
     <h2>Registrar Activo</h2>
     <form th:action="@{/add_active}" method="post">
         <label>Tipo de activo:</label>
-        <select id="tipo" name="tipo" onchange="mostrarCampos()">
-            <option value="fisico">Físico</option>
-            <option value="digital">Digital</option>
-        </select>
-        <br /><br />
+
 
         <!-- Campos comunes -->
         <label>Nombre:</label>
@@ -45,14 +35,6 @@
             </select>
         </div>
 
-        <!-- Campos específicos de activo digital -->
-        <div id="digitalFields" style="display:none;" th:object="${activoDigital}">
-            <label>Licencia:</label>
-            <input type="text" name="licencia" />
-            <br />
-            <label>Version:</label>
-            <input type="text" name="version" />
-        </div>
 
         <br />
         <button type="submit">Guardar</button>
