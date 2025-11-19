@@ -5,28 +5,19 @@
     <meta charset="UTF-8">
     <title>Home</title>
 
-    <script>
-        function mostrarAlerta(mensaje) {
-            if (mensaje) {
-                alert(mensaje);
-            }
-        }
-    </script>
+
 </head>
 
 <body>
     <h1>Home</h1>
 
-    <body onload="mostrarAlerta([[${success}]])">
-        <h2>Bienvenido</h2>
-        <p th:text="'Hola ' + ${usuario.name}"></p>
-    </body>
+
 
     <ul>
         <li><a href="/login">Iniciar seccion</a></li>
         <li><a href="/sign">Registrarse</a></li>
-        <li onload="mostrarAlerta([[${success}]])"><a href="/add_active_fisic">Agregar activo físico</a></li>
-        <li onload="mostrarAlerta([[${success}]])"><a href="/add_active_digital">Agregar activo digital</a></li>
+        <li><a href="/add_active_fisic">Agregar activo físico</a></li>
+        <li><a href="/add_active_digital">Agregar activo digital</a></li>
     </ul>
 
 
