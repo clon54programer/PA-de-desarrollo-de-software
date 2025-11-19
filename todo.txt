@@ -1,6 +1,6 @@
-- crud de activos
-- login
-- registro
+- crud de activos (falta la forma de eliminar los activos.)
+- login (x)
+- registro (x)
 - asignacion de vulnerabilidades y recomendaciones
 
 --------------------------------------------------------
