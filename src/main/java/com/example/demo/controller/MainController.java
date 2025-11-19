@@ -81,6 +81,13 @@ public class MainController {
         return "show_fisic_activos";
     }
 
+    @GetMapping("/show_digital_active")
+    public String GetDigitalcActive(Model model) {
+        List<ActivoDigital> activos_digitals = activoDigitalRepo.findAll();
+        model.addAttribute("activos_digitals", activos_digitals);
+        return "show_digital_activos";
+    }
+
     // end of crud of actives
 
     // begin login
