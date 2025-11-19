@@ -56,8 +56,7 @@ public class MainController {
     @GetMapping("/add_active_digital")
     public String ShowAddActiveDgitalPanel(Model model) {
 
-        model.addAttribute("activoDigital", new ActiveFisic());
-        model.addAttribute("estados", ActiveFisic.EstadoActivo.values());
+        model.addAttribute("activoDigital", new ActivoDigital());
 
         return "activo_digital_form";
     }
@@ -67,7 +66,6 @@ public class MainController {
 
             @ModelAttribute ActivoDigital activoDigital,
             Model model) {
-        model.addAttribute("activoDigital", new ActivoDigital());
 
         activoDigitalRepo.save(activoDigital);
         model.addAttribute("success", "Activo digital agregado correctamente");
