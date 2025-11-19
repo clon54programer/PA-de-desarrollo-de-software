@@ -7,9 +7,8 @@
 </head>
 
 <body>
-    <h2>Registrar Activo</h2>
+    <h2>Registrar Activo fisico</h2>
     <form th:action="@{/add_active_fisic}" method="post">
-        <label>Tipo de activo:</label>
 
 
         <!-- Campos comunes -->
@@ -24,7 +23,7 @@
         <br /><br />
 
         <!-- Campos específicos de activo físico -->
-        <div id="fisicoFields" style="display:none;" th:object="${activeFisic}">
+        <div id="fisicoFields" th:object="${activoFisico}">
             <label>Ubicación:</label>
             <input type="text" name="ubicacion" />
             <br />
