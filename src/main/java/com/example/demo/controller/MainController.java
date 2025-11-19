@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.example.demo.repository.ActivoDigitalRepository;
 import com.example.demo.repository.ActivoFisicoRepository;
 import com.example.demo.repository.UserRepository;
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -71,6 +72,13 @@ public class MainController {
         model.addAttribute("success", "Activo digital agregado correctamente");
 
         return "activo_success";
+    }
+
+    @GetMapping("/show_fisic_active")
+    public String GetFisicActive(Model model) {
+        List<ActiveFisic> activos_fisicos = activoFisicoRepo.findAll();
+        model.addAttribute("activos_fisicos", activos_fisicos);
+        return "show_digital_activos";
     }
 
     // end of crud of actives
