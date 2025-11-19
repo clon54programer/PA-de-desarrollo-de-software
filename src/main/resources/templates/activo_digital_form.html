@@ -7,10 +7,8 @@
 </head>
 
 <body>
-    <h2>Registrar Activo</h2>
+    <h2>Registrar Activo digital</h2>
     <form th:action="@{/add_active_digital}" method="post">
-        <label>Tipo de activo:</label>
-
 
         <!-- Campos comunes -->
         <label>Nombre:</label>
@@ -24,7 +22,7 @@
         <br /><br />
 
         <!-- Campos específicos de activo digital -->
-        <div id="digitalFields" style="display:none;" th:object="${activoDigital}">
+        <div id="digitalFields" th:object=" ${activoDigital}">
             <label>Licencia:</label>
             <input type="text" name="licencia" />
             <br />
