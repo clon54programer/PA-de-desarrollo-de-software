@@ -24,12 +24,12 @@
 
             <!-- Ejemplo dinámico con Thymeleaf -->
             <tr th:each="activo : ${activos_fisicos}">
-                <td th:text="${activos_fisicos.id}"></td>
-                <td th:text="${activos_fisicos.name}"></td>
-                <td th:text="${activos_fisicos.descripcion}"></td>
-                <td th:text="${activos_fisicos.ubicacion}"></td>
-                <td th:text="${activos_fisicos.estado}"></td>
-                <td th:text="${activos_fisicos.valor}"></td>
+                <td th:text="${activo.id}"></td>
+                <td th:text="${activo.name}"></td>
+                <td th:text="${activo.descripcion}"></td>
+                <td th:text="${activo.ubicacion}"></td>
+                <td th:text="${activo.estado}"></td>
+                <td th:text="${activo.valor}"></td>
             </tr>
         </tbody>
     </table>
