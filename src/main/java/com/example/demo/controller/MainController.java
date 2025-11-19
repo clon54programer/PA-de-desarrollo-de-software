@@ -35,31 +35,42 @@ public class MainController {
     @Autowired
     private ActivoDigitalRepository activoDigitalRepo;
 
-    @GetMapping("/add_active")
+    @GetMapping("/add_active_fisic")
     public String ShowAddActivePanel(Model model) {
 
         model.addAttribute("activoFisico", new ActiveFisic());
-        model.addAttribute("activoDigital", new ActivoDigital());
         model.addAttribute("estados", ActiveFisic.EstadoActivo.values());
 
-        return "activo_form";
+        return "activo_fisic_form";
     }
 
-    @PostMapping("/add_active")
-    public String AddActivePanel(@RequestParam("tipo") String tipo,
-            @ModelAttribute ActiveFisic activoFisico,
+    @PostMapping("/add_active_fisic")
+    public String AddActiveFisic(@ModelAttribute ActiveFisic activoFisico, Model model) {
+
+        activoFisicoRepo.save(activoFisico);
+        model.addAttribute("success", "Activo físico agregado correctamente");
+
+        return "activo_success";
+    }
+
+    @GetMapping("/add_active_digital")
+    public String ShowAddActiveDgitalPanel(Model model) {
+
+        model.addAttribute("activoDigital", new ActiveFisic());
+        model.addAttribute("estados", ActiveFisic.EstadoActivo.values());
+
+        return "activo_digital_form";
+    }
+
+    @PostMapping("/add_active_digital")
+    public String AddActiveDigital(
+
             @ModelAttribute ActivoDigital activoDigital,
             Model model) {
-        if ("fisico".equalsIgnoreCase(tipo)) {
-            activoFisicoRepo.save(activoFisico);
-            model.addAttribute("success", "Activo físico agregado correctamente");
-        } else if ("digital".equalsIgnoreCase(tipo)) {
-            activoDigitalRepo.save(activoDigital);
-            model.addAttribute("success", "Activo digital agregado correctamente");
-        } else {
-            model.addAttribute("error", "Tipo de activo no válido");
-            return "activo_form";
-        }
+        model.addAttribute("activoDigital", new ActivoDigital());
+
+        activoDigitalRepo.save(activoDigital);
+        model.addAttribute("success", "Activo digital agregado correctamente");
 
         return "activo_success";
     }
