@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activos Digitales</title>
+</head>
+
+<body>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Licencia</th>
+                <th>version</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <!-- Ejemplo dinámico con Thymeleaf -->
+            <tr th:each="activo : ${activos_digitals}">
+                <td th:text="${activo.id}"></td>
+                <td th:text="${activo.name}"></td>
+                <td th:text="${activo.descripcion}"></td>
+                <td th:text="${activo.version}"></td>
+                <td th:text="${activo.licencia}"></td>
+                <td th:text="${activo.valor}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</body>
+
+</html>
