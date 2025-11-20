@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Actualizar activo digital</title>
+</head>
+
+<body>
+    <h1>Buscar activo digital</h1>
+
+    <!-- Formulario -->
+    <form th:action="@{/update_digital_active}" method="post">
+        <input type="text" name="name" th:value="${name}" placeholder="Ingrese nombre">
+        <button type="submit">Buscar</button>
+    </form>
+
+
+    <form th:action="@{/update_digital_active}" method="post">
+        <input type="text" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <p th:if="${digital == null}">
+        No existe ningun elemento con es ID.
+    </p>
+
+    <form th:if="${digital != null}" th:action="@{/update_digital_active/save}" method="post" th:object="${active}">
+
+        <input type="hidden" th:field="*{id}" />
+        <!-- Campos comunes -->
+        <label>Nombre:</label>
+        <input type="text" th:field="*{name}" />
+        <br />
+        <label>Descripción:</label>
+        <input type="text" th:field="*{descripcion}" />
+        <br />
+        <label>Valor:</label>
+        <input type="number" step="0.01" th:field="*{valor}" />
+        <br /><br />
+
+        <label>Licencia:</label>
+        <input type="text" th:field=*{licencia}" />
+        <br />
+        <label>Version:</label>
+        <input type="text" th:field="*{version}" />
+
+
+        <br />
+        <button type="submit">Guardar</button>
+    </form>
+
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Version</th>
+                <th>Licencia</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <!-- Ejemplo dinámico con Thymeleaf -->
+            <tr th:each="activo : ${activos_digitals}">
+                <td th:text="${activo.id}"></td>
+                <td th:text="${activo.name}"></td>
+                <td th:text="${activo.descripcion}"></td>
+                <td th:text="${activo.version}"></td>
+                <td th:text="${activo.licencia}"></td>
+                <td th:text="${activo.valor}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
+
+    <a href="/">home</a>
+</body>
+
+</html>
