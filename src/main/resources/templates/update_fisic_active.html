@@ -10,7 +10,7 @@
 
     <!-- Formulario -->
     <form th:action="@{/update_fisic_active}" method="post">
-        <input type="text" name="nombre" th:value="${name}" placeholder="Ingrese nombre">
+        <input type="text" name="name" th:value="${name}" placeholder="Ingrese nombre">
         <button type="submit">Buscar</button>
     </form>
 
@@ -39,7 +39,7 @@
         <br /><br />
 
         <!-- Campos específicos de activo físico -->
-        <div id="fisicoFields" th:object="${activoFisico}">
+        <div id="fisicoFields" th:object="${active}">
             <label>Ubicación:</label>
             <input type="text" name="ubicacion" />
             <br />
@@ -87,6 +87,8 @@
             <p>No se encontraron resultados para "<span th:text="${name_find}"></span>"</p>
         </div>
     </div>
+
+    <a href="/">home</a>
 </body>
 
 </html>
