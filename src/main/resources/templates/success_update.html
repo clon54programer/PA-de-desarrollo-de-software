@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualizacion exitosa</title>
+    <title th:text="'Actualización exitosa ' + ${name_active}"></title>
 </head>
 
 <body>
 
-    <h2>Se actualizo correctamente <span th:text="${name_active}"></span></h2>
+    <h2 th:text="${message}"> </span></h2>
 
 </body>
 
