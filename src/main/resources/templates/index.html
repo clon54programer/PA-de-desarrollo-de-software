@@ -12,14 +12,17 @@
     <h1>Home</h1>
 
 
+    <h2 th:if="${success}" th:text="'Hola ' + ${usuario.name}"></h2>
+
+
 
     <ul>
         <li><a href="/login">Iniciar seccion</a></li>
         <li><a href="/sign">Registrarse</a></li>
-        <li><a href="/add_active_fisic">Agregar activo físico</a></li>
-        <li><a href="/add_active_digital">Agregar activo digital</a></li>
-        <li><a href="/show_fisic_active">Ver los activos fisicos</a></li>
-        <li><a href="/show_digital_active">Ver los activos digitales</a></li>
+        <li th:if="${success}"><a href="/add_active_fisic">Agregar activo físico</a></li>
+        <li th:if="${success}"><a href="/add_active_digital">Agregar activo digital</a></li>
+        <li th:if="${success}"><a href="/show_fisic_active">Ver los activos fisicos</a></li>
+        <li th:if="${success}"><a href="/show_digital_active">Ver los activos digitales</a></li>
     </ul>
 
 
