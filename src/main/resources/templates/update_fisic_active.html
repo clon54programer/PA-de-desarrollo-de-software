@@ -14,6 +14,48 @@
         <button type="submit">Buscar</button>
     </form>
 
+
+    <form th:action="@{/update_fisic_active}" method="post">
+        <input type="text" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <p th:if="${fisic == null}">
+        No existe ningun elemento con es ID.
+    </p>
+
+    <form th:if="${fisic != null}" th:action="@{/update_fisic_active}" method="post">
+
+
+        <!-- Campos comunes -->
+        <label>Nombre:</label>
+        <input type="text" name="name" />
+        <br />
+        <label>Descripción:</label>
+        <input type="text" name="descripcion" />
+        <br />
+        <label>Valor:</label>
+        <input type="number" step="0.01" name="valor" />
+        <br /><br />
+
+        <!-- Campos específicos de activo físico -->
+        <div id="fisicoFields" th:object="${activoFisico}">
+            <label>Ubicación:</label>
+            <input type="text" name="ubicacion" />
+            <br />
+            <label>Estado:</label>
+            <select th:field="*{estado}">
+                <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}">
+                </option>
+            </select>
+        </div>
+
+
+        <br />
+        <button type="submit">Guardar</button>
+    </form>
+
+
     <!-- Resultados -->
     <div th:if="${fisic_results != null}">
         <h2>Resultados</h2>
