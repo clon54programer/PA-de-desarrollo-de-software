@@ -28,6 +28,11 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/path")
+    public String RedirectIndex(Model model) {
+        return "forward:/";
+    }
+
     // begin of crud of actives
 
     @Autowired
@@ -91,6 +96,7 @@ public class MainController {
     @GetMapping("/update_fisic_active")
     public String ShowUpdateFisicUpdate(Model model) {
         model.addAttribute("fisic_results", null);
+
         return "update_fisic_active";
     }
 
@@ -106,6 +112,7 @@ public class MainController {
     public String GetFisicActiveForID(@RequestParam("id") Long id, Model model) {
         ActiveFisic fisic = activoFisicoRepo.findById(id).orElse(null);
         model.addAttribute("fisic", fisic);
+        model.addAttribute("active", fisic);
         model.addAttribute("estados", ActiveFisic.EstadoActivo.values());
         return "update_fisic_active";
     }
