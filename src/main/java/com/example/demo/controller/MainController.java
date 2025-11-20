@@ -95,11 +95,27 @@ public class MainController {
     }
 
     @PostMapping("/update_fisic_active")
-    public String GetFisicActive(@RequestParam("name") String name, Model model) {
+    public String GetFisicActiveForName(@RequestParam("name") String name, Model model) {
         List<ActiveFisic> fisic_results = activoFisicoRepo.findByNombreContainingIgnoreCase(name);
         model.addAttribute("fisic_results", fisic_results);
         model.addAttribute("name_find", name);
         return "update_fisic_update";
+    }
+
+    @PostMapping("/update_fisic_active")
+    public String GetFisicActiveForID(@RequestParam("id") Long id, Model model) {
+        ActiveFisic fisic = activoFisicoRepo.findById(id).orElse(null);
+        model.addAttribute("fisic", fisic);
+        return "update_fisic_update";
+    }
+
+    @PostMapping("/update_fisic_active")
+    public String UpdateFisicActive(@ModelAttribute ActiveFisic active, Model model) {
+        activoFisicoRepo.save(active);
+        String message = "Se actualizo el activo " + active.getName();
+        model.addAttribute("message", message);
+        model.addAttribute("name_active", active.getName());
+        return "success_update";
     }
 
     @GetMapping("/update_digital_active")
