@@ -117,7 +117,7 @@ public class MainController {
         return "update_fisic_active";
     }
 
-    @PostMapping("/update_fisic_active")
+    @PostMapping(value = "/update_fisic_active/save")
     public String UpdateFisicActive(@ModelAttribute ActiveFisic active, Model model) {
         activoFisicoRepo.save(active);
         String message = "Se actualizo el activo " + active.getName();
