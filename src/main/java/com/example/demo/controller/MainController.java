@@ -128,14 +128,14 @@ public class MainController {
 
     @GetMapping("/update_digital_active")
     public String ShowUpdateDigitalUpdate(Model model) {
-        model.addAttribute("digitals_results", null);
+        model.addAttribute("digital_results", null);
         return "update_digital_update";
     }
 
     @PostMapping(value = "/update_digital_active", params = "name")
     public String GetDigitalcActiveForName(@RequestParam("name") String name, Model model) {
-        List<ActivoDigital> digitals_results = activoDigitalRepo.findByNameContainingIgnoreCase(name);
-        model.addAttribute("digitals_results", digitals_results);
+        List<ActivoDigital> digital_results = activoDigitalRepo.findByNameContainingIgnoreCase(name);
+        model.addAttribute("digital_results", digital_results);
         model.addAttribute("name_find", name);
         return "update_digital_active";
     }
