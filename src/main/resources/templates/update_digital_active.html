@@ -39,7 +39,7 @@
         <br /><br />
 
         <label>Licencia:</label>
-        <input type="text" th:field=*{licencia}" />
+        <input type="text" th:field="*{licencia}" />
         <br />
         <label>Version:</label>
         <input type="text" th:field="*{version}" />
@@ -64,7 +64,7 @@
         <tbody>
 
             <!-- Ejemplo dinámico con Thymeleaf -->
-            <tr th:each="activo : ${activos_digitals}">
+            <tr th:each="activo : ${digital_results}">
                 <td th:text="${activo.id}"></td>
                 <td th:text="${activo.name}"></td>
                 <td th:text="${activo.descripcion}"></td>
