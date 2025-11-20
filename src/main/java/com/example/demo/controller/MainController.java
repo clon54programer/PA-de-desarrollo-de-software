@@ -129,7 +129,7 @@ public class MainController {
     @GetMapping("/update_digital_active")
     public String ShowUpdateDigitalUpdate(Model model) {
         model.addAttribute("digital_results", null);
-        return "update_digital_update";
+        return "update_digital_active";
     }
 
     @PostMapping(value = "/update_digital_active", params = "name")
