@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ActivoFisicoRepository extends JpaRepository<ActiveFisic, Long> {
 
-    List<ActiveFisic> findByNombreContainingIgnoreCase(String name);
+    List<ActiveFisic> findByNameContainingIgnoreCase(String name);
 }
