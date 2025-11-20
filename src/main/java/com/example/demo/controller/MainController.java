@@ -91,7 +91,7 @@ public class MainController {
     @GetMapping("/update_fisic_active")
     public String ShowUpdateFisicUpdate(Model model) {
         model.addAttribute("fisic_results", null);
-        return "update_fisic_update";
+        return "update_fisic_active";
     }
 
     @PostMapping(value = "/update_fisic_active", params = "name")
@@ -99,7 +99,7 @@ public class MainController {
         List<ActiveFisic> fisic_results = activoFisicoRepo.findByNameContainingIgnoreCase(name);
         model.addAttribute("fisic_results", fisic_results);
         model.addAttribute("name_find", name);
-        return "update_fisic_update";
+        return "update_fisic_active";
     }
 
     @PostMapping(value = "/update_fisic_active", params = "id")
@@ -107,7 +107,7 @@ public class MainController {
         ActiveFisic fisic = activoFisicoRepo.findById(id).orElse(null);
         model.addAttribute("fisic", fisic);
         model.addAttribute("estado", ActiveFisic.EstadoActivo.values());
-        return "update_fisic_update";
+        return "update_fisic_active";
     }
 
     @PostMapping("/update_fisic_active")
