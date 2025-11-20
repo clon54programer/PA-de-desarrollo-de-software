@@ -106,7 +106,7 @@ public class MainController {
     public String GetFisicActiveForID(@RequestParam("id") Long id, Model model) {
         ActiveFisic fisic = activoFisicoRepo.findById(id).orElse(null);
         model.addAttribute("fisic", fisic);
-        model.addAttribute("estado", ActiveFisic.EstadoActivo.values());
+        model.addAttribute("estados", ActiveFisic.EstadoActivo.values());
         return "update_fisic_active";
     }
 
