@@ -128,7 +128,33 @@ public class MainController {
 
     @GetMapping("/update_digital_active")
     public String ShowUpdateDigitalUpdate(Model model) {
+        model.addAttribute("digitals_results", null);
         return "update_digital_update";
+    }
+
+    @PostMapping(value = "/update_digital_active", params = "name")
+    public String GetDigitalcActiveForName(@RequestParam("name") String name, Model model) {
+        List<ActivoDigital> digitals_results = activoDigitalRepo.findByNameContainingIgnoreCase(name);
+        model.addAttribute("digitals_results", digitals_results);
+        model.addAttribute("name_find", name);
+        return "update_digital_active";
+    }
+
+    @PostMapping(value = "/update_digital_active", params = "id")
+    public String GetFisicDigitalForID(@RequestParam("id") Long id, Model model) {
+        ActivoDigital digital = activoDigitalRepo.findById(id).orElse(null);
+        model.addAttribute("digital", digital);
+        model.addAttribute("active", digital);
+        return "update_digital_active";
+    }
+
+    @PostMapping(value = "/update_digital_active/save")
+    public String UpdateDigitalActive(@ModelAttribute ActivoDigital active, Model model) {
+        activoDigitalRepo.save(active);
+        String message = "Se actualizo el activo " + active.getName();
+        model.addAttribute("message", message);
+        model.addAttribute("name_active", active.getName());
+        return "success_update";
     }
 
     // end of crud of actives
