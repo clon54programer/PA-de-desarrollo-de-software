@@ -88,6 +88,25 @@ public class MainController {
         return "show_digital_activos";
     }
 
+    @GetMapping("/update_fisic_active")
+    public String ShowUpdateFisicUpdate(Model model) {
+        model.addAttribute("fisic_results", null);
+        return "update_fisic_update";
+    }
+
+    @PostMapping("/update_fisic_active")
+    public String GetFisicActive(@RequestParam("name") String name, Model model) {
+        List<ActiveFisic> fisic_results = activoFisicoRepo.findByNombreContainingIgnoreCase(name);
+        model.addAttribute("fisic_results", fisic_results);
+        model.addAttribute("name_find", name);
+        return "update_fisic_update";
+    }
+
+    @GetMapping("/update_digital_active")
+    public String ShowUpdateDigitalUpdate(Model model) {
+        return "update_digital_update";
+    }
+
     // end of crud of actives
 
     // begin login
