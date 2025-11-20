@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Actualizar activo fisico</title>
+</head>
+
+<body>
+    <h1>Buscar activo fisico</h1>
+
+    <!-- Formulario -->
+    <form th:action="@{/update_fisic_active}" method="post">
+        <input type="text" name="nombre" th:value="${name}" placeholder="Ingrese nombre">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <!-- Resultados -->
+    <div th:if="${fisic_results != null}">
+        <h2>Resultados</h2>
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <!-- Ejemplo dinámico con Thymeleaf -->
+                <tr th:each="activo : ${fisic_results}">
+                    <td th:text="${activo.id}"></td>
+                    <td th:text="${activo.name}"></td>
+                    <td th:text="${activo.descripcion}"></td>
+                    <td th:text="${activo.ubicacion}"></td>
+                    <td th:text="${activo.estado}"></td>
+                    <td th:text="${activo.valor}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:if="${#lists.isEmpty(fisic_results)}">
+            <p>No se encontraron resultados para "<span th:text="${name_find}"></span>"</p>
+        </div>
+    </div>
+</body>
+
+</html>
