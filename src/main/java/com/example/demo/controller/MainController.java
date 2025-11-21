@@ -242,8 +242,17 @@ public class MainController {
     @PostMapping(value = "/add_vuln_at_fisic_active", params = "id")
     public String GetFisicActiveForIDVuln(@RequestParam("id") Long id, Model model) {
         ActiveFisic active = activoFisicoRepo.findById(id).orElse(null);
+        String debug_message = "";
+        if (active == null) {
+            debug_message = "Es nulo";
+        } else {
+            debug_message = "name: " + active.getName();
+        }
+        model.addAttribute("debug_message", debug_message);
         model.addAttribute("active", active);
+        model.addAttribute("actions", VulnActions.values());
         return "add_vuln_fisic_Active";
+
     }
 
     @PostMapping("/add_vuln_at_fisic_active")
