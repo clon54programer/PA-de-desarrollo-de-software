@@ -33,6 +33,14 @@ public class Vuln {
     @Column(length = 20)
     private EstadoVulnerabilidad estado;
 
+    public EstadoVulnerabilidad getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoVulnerabilidad estado) {
+        this.estado = estado;
+    }
+
     @ManyToMany
     @JoinTable(name = "vulnerabilidad_recomendacion", joinColumns = @JoinColumn(name = "vulnerabilidad_id"), inverseJoinColumns = @JoinColumn(name = "recomendacion_id"))
     private List<Recomendacion> recomendaciones;
