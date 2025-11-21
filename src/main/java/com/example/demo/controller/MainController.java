@@ -17,6 +17,7 @@ import com.example.demo.repository.VulnRepository;
 import com.example.demo.repository.RecomendacionRepository;
 import java.util.List;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 
 import com.example.demo.model.*;
@@ -274,8 +275,10 @@ public class MainController {
     public String GetAction(@ModelAttribute("action_request") ActionRequest action, Model model) {
 
         if (action.getAction() == VulnActions.AGREGAR) {
-            model.addAttribute("action_select", action);
-            System.out.println("action " + action.toString());
+            model.addAttribute("action_select", action.getAction().toString());
+            model.addAttribute("vuln", new Vuln());
+            model.addAttribute("estados", Vuln.EstadoVulnerabilidad.values());
+            System.out.println("action " + action.getAction().toString());
         }
 
         System.out.println("de");
@@ -283,8 +286,9 @@ public class MainController {
         return "add_vuln_fisic_Active";
     }
 
-    @PostMapping("/add_vuln_at_fisic_active")
+    @PostMapping("/add_vuln_at_fisic_active/add")
     public String AddVulnAtFisicActive(@ModelAttribute Vuln vuln, Model model) {
+        System.out.println("[INFO] Se agrego la vuln" + vuln.getId());
         vulnRepository.save(vuln);
         String message = "Se agrego la vulnerabilidad de forma exitosa";
 
