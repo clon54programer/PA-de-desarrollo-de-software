@@ -15,12 +15,17 @@ import com.example.demo.repository.ActivoFisicoRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.VulnRepository;
 import com.example.demo.repository.RecomendacionRepository;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 
 import com.example.demo.model.*;
+import com.example.demo.model.Vuln.EstadoVulnerabilidad;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -276,7 +281,7 @@ public class MainController {
 
         if (action.getAction() == VulnActions.AGREGAR) {
             model.addAttribute("action_select", action.getAction().toString());
-            model.addAttribute("vuln", new Vuln());
+            model.addAttribute("vuln", new VulnDTO());
             model.addAttribute("estados", Vuln.EstadoVulnerabilidad.values());
             System.out.println("action " + action.getAction().toString());
         }
@@ -286,13 +291,79 @@ public class MainController {
         return "add_vuln_fisic_Active";
     }
 
+    public class VulnDTO {
+        public Long activoAfectadoId;
+
+        public Long getActivoAfectadoId() {
+            return activoAfectadoId;
+        }
+
+        public void setActivoAfectadoId(Long activoAfectadoId) {
+            this.activoAfectadoId = activoAfectadoId;
+        }
+
+        public String descripcion;
+
+        public String getDescripcion() {
+            return descripcion;
+        }
+
+        public void setDescripcion(String descripcion) {
+            this.descripcion = descripcion;
+        }
+
+        public String cve;
+
+        public String getCve() {
+            return cve;
+        }
+
+        public void setCve(String cve) {
+            this.cve = cve;
+        }
+
+        public LocalDate fechaDeDescubrimiento;
+
+        public LocalDate getFechaDeDescubrimiento() {
+            return fechaDeDescubrimiento;
+        }
+
+        public void setFechaDeDescubrimiento(LocalDate fechaDeDescubrimiento) {
+            this.fechaDeDescubrimiento = fechaDeDescubrimiento;
+        }
+
+        public EstadoVulnerabilidad estado;
+
+        public EstadoVulnerabilidad getEstado() {
+            return estado;
+        }
+
+        public void setEstado(EstadoVulnerabilidad estado) {
+            this.estado = estado;
+        }
+    }
+
     @PostMapping("/add_vuln_at_fisic_active/add")
-    public String AddVulnAtFisicActive(@ModelAttribute Vuln vuln, Model model) {
-        System.out.println("[INFO] Se agrego la vuln" + vuln.getId());
+    public String AddVulnAtFisicActive(@ModelAttribute VulnDTO vulnDTO, Model model) {
+        System.out.println("[INFO] Se agrego la vuln" + vulnDTO);
+
+        Optional<ActiveFisic> active = activoFisicoRepo.findById(vulnDTO.activoAfectadoId);
+
+        if (active.isEmpty()) {
+            return "add_vuln_fisic_Active";
+        }
+        Vuln vuln = new Vuln();
+        vuln.setActivoAfectado(active.get());
+        vuln.setDescripcion(vulnDTO.descripcion);
+        vuln.setCve(vulnDTO.cve);
+        vuln.setFechaDeDescubrimiento(vulnDTO.fechaDeDescubrimiento);
+        vuln.setEstado(vulnDTO.estado);
+
         vulnRepository.save(vuln);
         String message = "Se agrego la vulnerabilidad de forma exitosa";
 
         model.addAttribute("message", message);
+        model.addAttribute("name_active", active.get().getName());
 
         return "success_vuln";
     }
