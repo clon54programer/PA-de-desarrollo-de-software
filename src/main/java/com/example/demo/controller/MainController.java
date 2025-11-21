@@ -251,6 +251,7 @@ public class MainController {
         model.addAttribute("debug_message", debug_message);
         model.addAttribute("active", active);
         model.addAttribute("actions", VulnActions.values());
+        model.addAttribute("active_name", active.getName());
         return "add_vuln_fisic_Active";
 
     }
