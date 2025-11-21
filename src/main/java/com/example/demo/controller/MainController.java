@@ -221,6 +221,19 @@ public class MainController {
         LEER,
     }
 
+    public class ActionRequest {
+        private VulnActions action;
+
+        public VulnActions getAction() {
+            return this.action;
+        }
+
+        public void setAction(VulnActions action) {
+            this.action = action;
+        }
+
+    }
+
     @GetMapping("/add_vuln_at_fisic_active")
     public String ShowAddVulnAtFisicActive(Model model) {
         return "add_vuln_fisic_active";
@@ -253,18 +266,19 @@ public class MainController {
         model.addAttribute("actions", VulnActions.values());
         model.addAttribute("active_name", active.getName());
         model.addAttribute("action", VulnActions.LEER.toString());
+        model.addAttribute("action_request", new ActionRequest());
         return "add_vuln_fisic_Active";
-
     }
 
     @PostMapping("/add_vuln_at_fisic_active/action")
-    public String GetAction(@RequestParam("action") String action, Model model) {
-        VulnActions action_str = VulnActions.valueOf(action);
+    public String GetAction(@ModelAttribute("action_request") ActionRequest action, Model model) {
 
-        if (action_str == VulnActions.AGREGAR) {
-            model.addAttribute("action_select", action_str);
-            System.out.println("action " + action_str);
+        if (action.getAction() == VulnActions.AGREGAR) {
+            model.addAttribute("action_select", action);
+            System.out.println("action " + action.toString());
         }
+
+        System.out.println("de");
 
         return "add_vuln_fisic_Active";
     }
