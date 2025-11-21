@@ -240,7 +240,9 @@ public class MainController {
     }
 
     @PostMapping(value = "/add_vuln_at_fisic_active", params = "id")
-    public String GetFisicActiveForID(@RequestParam("id") String name, Model model) {
+    public String GetFisicActiveForIDVuln(@RequestParam("id") Long id, Model model) {
+        ActiveFisic active = activoFisicoRepo.findById(id).orElse(null);
+        model.addAttribute("active", active);
         return "add_vuln_fisic_Active";
     }
 
