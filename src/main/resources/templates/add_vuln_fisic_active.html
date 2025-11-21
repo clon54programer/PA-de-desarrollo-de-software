@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activos fisicos</title>
+</head>
+
+<body>
+
+    <h2>Activos fisicos</h2>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Ubicación</th>
+                <th>Estado</th>
+                <th>Valor</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <!-- Ejemplo dinámico con Thymeleaf -->
+            <tr th:each="activo : ${activos_fisicos}">
+                <td th:text="${activo.id}"></td>
+                <td th:text="${activo.name}"></td>
+                <td th:text="${activo.descripcion}"></td>
+                <td th:text="${activo.ubicacion}"></td>
+                <td th:text="${activo.estado}"></td>
+                <td th:text="${activo.valor}"></td>
+                <td>
+                    <select>
+                        <option th:each="accion : ${actions}" th:value="${accion}" th:text="${accion}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <a href="/path">home</a>
+
+
+</body>
+
+</html>
