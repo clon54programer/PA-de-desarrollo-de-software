@@ -214,14 +214,22 @@ public class MainController {
     @Autowired
     RecomendacionRepository recomendacionRepository;
 
-    @GetMapping("/add_vuln")
+    public enum VulnActions {
+        AGREGAR,
+        ACTUALIZAR,
+        ELIMINAR,
+        LEER,
+    }
+
+    @GetMapping("/add_vuln_at_fisic_active")
     public String ShowAddVulnAtFisicActive(Model model) {
         List<ActiveFisic> activos_fisicos = activoFisicoRepo.findAll();
         model.addAttribute("activos_fisicos", activos_fisicos);
+        model.addAttribute("actions", VulnActions.values());
         return "add_vuln_fisic_active";
     }
 
-    @PostMapping("/add_vuln")
+    @PostMapping("/add_vuln_at_fisic_active")
     public String AddVulnAtFisicActive(@ModelAttribute Vuln vuln, Model model) {
         vulnRepository.save(vuln);
         String message = "Se agrego la vulnerabilidad de forma exitosa";
