@@ -223,10 +223,25 @@ public class MainController {
 
     @GetMapping("/add_vuln_at_fisic_active")
     public String ShowAddVulnAtFisicActive(Model model) {
-        List<ActiveFisic> activos_fisicos = activoFisicoRepo.findAll();
-        model.addAttribute("activos_fisicos", activos_fisicos);
-        model.addAttribute("actions", VulnActions.values());
         return "add_vuln_fisic_active";
+    }
+
+    @PostMapping(value = "/add_vuln_at_fisic_active", params = "name")
+    public String SearchFisicActiveForName(@RequestParam("name") String name, Model model) {
+        List<ActiveFisic> actives = activoFisicoRepo.findByNameContainingIgnoreCase(name);
+
+        System.out.println("actives: " + actives.isEmpty());
+        for (ActiveFisic activeFisic : actives) {
+            System.out.println("name: " + activeFisic.getName());
+        }
+
+        model.addAttribute("actives", actives);
+        return "add_vuln_fisic_Active";
+    }
+
+    @PostMapping(value = "/add_vuln_at_fisic_active", params = "id")
+    public String GetFisicActiveForID(@RequestParam("id") String name, Model model) {
+        return "add_vuln_fisic_Active";
     }
 
     @PostMapping("/add_vuln_at_fisic_active")
