@@ -296,12 +296,9 @@ public class MainController {
         return "add_vuln_fisic_Active";
     }
 
-    @PostMapping("/add_vuln_at_fisic_active/get/{id}")
-    public String GetVulnForIDAatFisicActive(@PathVariable("id") long id, Model model) {
-        System.out.println("get");
-
+    @PostMapping("/add_vuln_at_fisic_active/get")
+    public String GetVulnForIDAatFisicActive(@RequestParam("id") long id, Model model) {
         model.addAttribute("vulns", vulnRepository.findByActivoAfectadoId(id));
-
         return "add_vuln_fisic_Active";
     }
 
