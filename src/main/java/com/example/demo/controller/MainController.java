@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.repository.ActivoDigitalRepository;
 import com.example.demo.repository.ActivoFisicoRepository;
@@ -350,7 +351,7 @@ public class MainController {
         Optional<ActiveFisic> active = activoFisicoRepo.findById(vulnDTO.activoAfectadoId);
 
         if (active.isEmpty()) {
-            return "add_vuln_fisic_Active";
+            return "redirect:/err_vuln";
         }
         Vuln vuln = new Vuln();
         vuln.setActivoAfectado(active.get());
