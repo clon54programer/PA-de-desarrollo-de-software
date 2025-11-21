@@ -44,13 +44,42 @@
 
         </form>
 
-
-
-
-
-
-
     </div>
+
+    <form th:if="${action_select == 'AGREGAR'}" th:action="@{/add_vuln_at_fisic_active/add}" th:object="${vuln}"
+        method="post">
+
+        <!-- Activo afectado -->
+        <label for="activoAfectado">Activo afectado:</label>
+        <select th:field="*{activoAfectado}" id="activoAfectado" required>
+            <option th:each="activo : ${activos}" th:value="${activo}" th:text="${activo.nombre}"></option>
+        </select>
+        <br />
+
+        <!-- Descripción -->
+        <label for="descripcion">Descripción:</label>
+        <textarea th:field="*{descripcion}" id="descripcion" rows="4" cols="50"></textarea>
+        <br />
+
+        <!-- CVE -->
+        <label for="cve">CVE:</label>
+        <input type="text" th:field="*{cve}" id="cve" maxlength="20" />
+        <br />
+
+        <!-- Fecha de descubrimiento -->
+        <label for="fechaDeDescubrimiento">Fecha de descubrimiento:</label>
+        <input type="date" th:field="*{fechaDeDescubrimiento}" id="fechaDeDescubrimiento" />
+        <br />
+
+        <!-- Estado -->
+        <label for="estado">Estado:</label>
+        <select th:field="*{estado}" id="estado">
+            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
+        </select>
+        <br />
+
+        <button type="submit">Guardar</button>
+    </form>
 
 
 
