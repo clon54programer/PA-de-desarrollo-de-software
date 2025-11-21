@@ -29,6 +29,19 @@
     <div th:if="${active != null}">
         <h3 th_text="${active_name}"></h3>
 
+        <form th:action="@{/add_vuln_at_fisic_active}" method="post">
+
+            <label for="estado">Estado:</label>
+            <select>
+                <option th:each="accion : ${actions}" th:value="${accion}" th:text="${accion}">
+                </option>
+            </select>
+
+        </form>
+
+
+
+
 
 
 
