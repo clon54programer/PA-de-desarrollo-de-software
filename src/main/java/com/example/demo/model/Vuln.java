@@ -37,6 +37,10 @@ public class Vuln {
     @JoinTable(name = "vulnerabilidad_recomendacion", joinColumns = @JoinColumn(name = "vulnerabilidad_id"), inverseJoinColumns = @JoinColumn(name = "recomendacion_id"))
     private List<Recomendacion> recomendaciones;
 
+    public Vuln() {
+
+    }
+
     public Vuln(Long id, ActiveBase activoAfectado, String descripcion, String cve, EstadoVulnerabilidad estado,
             LocalDate fechaDeDescubrimiento) {
         this.activoAfectado = activoAfectado;
