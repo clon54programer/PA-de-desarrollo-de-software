@@ -50,11 +50,10 @@
         method="post">
 
         <!-- Activo afectado -->
-        <label for="activoAfectado">Activo afectado:</label>
-        <select th:field="*{activoAfectado}" id="activoAfectado" required>
-            <option th:each="activo : ${activos}" th:value="${activo}" th:text="${activo.nombre}"></option>
-        </select>
+        <label for="activoAfectadoId">ID del activo afectado:</label>
+        <input th:field="*{activoAfectadoId}" type="number" id="activoAfectadoId" required min="1" />
         <br />
+
 
         <!-- Descripción -->
         <label for="descripcion">Descripción:</label>
