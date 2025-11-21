@@ -81,6 +81,41 @@
     </form>
 
 
+    <form th:if="${action_select=='LEER'}" th:action="@{/add_vuln_at_fisic_active/get}" method="post">
+        <input type="number" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table th:if="${action_select=='LEER' && vulns != null}" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>CVE</th>
+                <th>Fecha de descubrimiento</th>
+                <th>Estado</th>
+                <th>Recomendaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="vuln : ${vulnerabilidades}">
+                <td th:text="${vuln.id}"></td>
+                <td th:text="${vuln.descripcion}"></td>
+                <td th:text="${vuln.cve}"></td>
+                <td th:text="${vuln.fechaDeDescubrimiento}"></td>
+                <td th:text="${vuln.estado}"></td>
+                <td>
+                    <ul>
+                        <li th:each="rec : ${vuln.recomendaciones}" th:text="${rec.descripcion}"></li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+
 
     <p th:if="${actives == null}">
         No existe ningun elemento con ese nombre.
