@@ -11,7 +11,26 @@
 
     <h2>Activos fisicos</h2>
 
-    <table border="1" cellpadding="8" cellspacing="0">
+
+    <form th:action="@{/add_vuln_at_fisic_active}" method="post">
+        <input type="text" name="name" th:value="${name}" placeholder="Ingrese nombre">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <form th:action="@{/add_vuln_at_fisic_active}" method="post">
+        <input type="text" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <p th:if="${active == null}">
+        No existe ningun elemento con es ID.
+    </p>
+
+    <p th:if="${actives == null}">
+        No existe ningun elemento con ese nombre.
+    </p>
+
+    <table th:if="${actives != null}" border="1" cellpadding="8" cellspacing="0">
         <thead>
             <tr>
                 <th>ID</th>
@@ -20,7 +39,6 @@
                 <th>Ubicación</th>
                 <th>Estado</th>
                 <th>Valor</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -33,12 +51,6 @@
                 <td th:text="${activo.ubicacion}"></td>
                 <td th:text="${activo.estado}"></td>
                 <td th:text="${activo.valor}"></td>
-                <td>
-                    <select>
-                        <option th:each="accion : ${actions}" th:value="${accion}" th:text="${accion}">
-                        </option>
-                    </select>
-                </td>
             </tr>
         </tbody>
     </table>
