@@ -18,13 +18,23 @@
     </form>
 
     <form th:action="@{/add_vuln_at_fisic_active}" method="post">
-        <input type="text" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+        <input type="number" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
         <button type="submit">Buscar</button>
     </form>
 
     <p th:if="${active == null}">
         No existe ningun elemento con es ID.
     </p>
+
+    <div th:if="${active != null}">
+        <h3 th_text="${active_name}"></h3>
+
+
+
+
+    </div>
+
+
 
     <p th:if="${actives == null}">
         No existe ningun elemento con ese nombre.
