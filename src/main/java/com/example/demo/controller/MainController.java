@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -223,7 +224,6 @@ public class MainController {
 
     public enum VulnActions {
         AGREGAR,
-        ACTUALIZAR,
         ELIMINAR,
         LEER,
     }
@@ -285,9 +285,22 @@ public class MainController {
             model.addAttribute("vuln", new VulnDTO());
             model.addAttribute("estados", Vuln.EstadoVulnerabilidad.values());
             System.out.println("action " + action.getAction().toString());
+        } else if (action.getAction() == VulnActions.LEER) {
+            model.addAttribute("action_select", action.getAction().toString());
+            System.out.println("action " + action.getAction().toString());
+            model.addAttribute("vulns", null);
         }
 
         System.out.println("de");
+
+        return "add_vuln_fisic_Active";
+    }
+
+    @PostMapping("/add_vuln_at_fisic_active/get/{id}")
+    public String GetVulnForIDAatFisicActive(@PathVariable("id") long id, Model model) {
+        System.out.println("get");
+
+        model.addAttribute("vulns", vulnRepository.findByActivoAfectadoId(id));
 
         return "add_vuln_fisic_Active";
     }
@@ -368,7 +381,6 @@ public class MainController {
 
         return "success_vuln";
     }
-
     // end asignacion de vulnerabiliades y recomendaciones
 
 }

@@ -81,12 +81,12 @@
     </form>
 
 
-    <form th:if="${action_select=='LEER'}" th:action="@{/add_vuln_at_fisic_active/get}" method="post">
-        <input type="number" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+    <form th:if="${action_select=='LEER'}" th:action="@{/add_vuln_at_fisic_active/get{id}(id=${id})}" method="post">
+        <input type="number" name="id" placeholder="Ingrese el id del activo">
         <button type="submit">Buscar</button>
     </form>
 
-    <table th:if="${action_select=='LEER' && vulns != null}" border="1">
+    <table th:if="${vulns != null}" border="1">
         <thead>
             <tr>
                 <th>ID</th>
@@ -98,7 +98,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="vuln : ${vulnerabilidades}">
+            <tr th:each="vuln : ${vulns}">
                 <td th:text="${vuln.id}"></td>
                 <td th:text="${vuln.descripcion}"></td>
                 <td th:text="${vuln.cve}"></td>
