@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.example.demo.repository.ActivoDigitalRepository;
 import com.example.demo.repository.ActivoFisicoRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.VulnRepository;
+import com.example.demo.repository.RecomendacionRepository;
 import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
 import com.example.demo.model.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @SessionAttributes("user_login")
@@ -204,6 +207,29 @@ public class MainController {
     // end sign up
 
     // begin asignacion de vulnerabiliades y recomendaciones
+
+    @Autowired
+    VulnRepository vulnRepository;
+
+    @Autowired
+    RecomendacionRepository recomendacionRepository;
+
+    @GetMapping("/add_vuln")
+    public String ShowAddVulnAtFisicActive(Model model) {
+        List<ActiveFisic> activos_fisicos = activoFisicoRepo.findAll();
+        model.addAttribute("activos_fisicos", activos_fisicos);
+        return "add_vuln_fisic_active";
+    }
+
+    @PostMapping("/add_vuln")
+    public String AddVulnAtFisicActive(@ModelAttribute Vuln vuln, Model model) {
+        vulnRepository.save(vuln);
+        String message = "Se agrego la vulnerabilidad de forma exitosa";
+
+        model.addAttribute("message", message);
+
+        return "success_vuln";
+    }
 
     // end asignacion de vulnerabiliades y recomendaciones
 
