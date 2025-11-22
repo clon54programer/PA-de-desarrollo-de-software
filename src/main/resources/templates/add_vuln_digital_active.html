@@ -109,7 +109,7 @@
         </tbody>
     </table>
 
-
+    <h2 th:if="${action_select == 'AGREGAR'}">Agregue la vulnerabilidad</h2>
     <form th:if="${action_select == 'AGREGAR'}" th:action="@{/add_vuln_at_digital_active/add}" th:object="${vuln}"
         method="post">
 
