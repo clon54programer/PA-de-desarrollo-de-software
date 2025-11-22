@@ -96,6 +96,12 @@ public class MainController {
         return "delete_fisic_active";
     }
 
+    @GetMapping("/delete_digital_active")
+    public String ShowDeleteDigitalActive(Model model) {
+        model.addAttribute("message", "");
+        return "delete_digital_active";
+    }
+
     @PostMapping("/delete_fisic_active")
     public String DeleteFisicActive(@RequestParam("id") Long id, Model model) {
         activoFisicoRepo.deleteById(id);
@@ -103,6 +109,15 @@ public class MainController {
         model.addAttribute("message", "Se elimino el activo");
 
         return "delete_fisic_active";
+    }
+
+    @PostMapping("/delete_digital_active")
+    public String DeleteDigitalActive(@RequestParam("id") Long id, Model model) {
+        activoDigitalRepo.deleteById(id);
+
+        model.addAttribute("message", "Se elimino el activo");
+
+        return "delete_digital_active";
     }
 
     @GetMapping("/show_fisic_active")
