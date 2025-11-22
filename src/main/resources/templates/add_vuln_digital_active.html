@@ -60,5 +60,26 @@
     </table>
 
 
+    <div th:if="${active != null}">
+        <h2>¿Que accion va a realizar?</h2>
+        <h3 th_text="${active_name}"></h3>
+
+
+        <form th:action="@{/add_vuln_at_digital_active/action}" th:object="${action_request}" method="post">
+
+            <label for="accion">Accion:</label>
+            <select th:field="*{action}">
+                <option th:each="accion : ${actions}" th:value="${accion}" th:text="${accion}">
+                </option>
+            </select>
+
+            <br />
+            <button type="submit">Enviar</button>
+
+        </form>
+
+    </div>
+
+
     <a href="/path">home</a>
 </body>

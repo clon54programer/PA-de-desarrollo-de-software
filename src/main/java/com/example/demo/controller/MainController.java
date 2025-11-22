@@ -295,6 +295,24 @@ public class MainController {
         return "add_vuln_fisic_active";
     }
 
+    @PostMapping(value = "/add_vuln_at_digital_active", params = "id")
+    public String GetDigitalActiveForIDVuln(@RequestParam("id") Long id, Model model) {
+        ActivoDigital active = activoDigitalRepo.findById(id).orElse(null);
+        String debug_message = "";
+        if (active == null) {
+            debug_message = "Es nulo";
+        } else {
+            debug_message = "name: " + active.getName();
+        }
+        model.addAttribute("debug_message", debug_message);
+        model.addAttribute("active", active);
+        model.addAttribute("actions", VulnActions.values());
+        model.addAttribute("active_name", active.getName());
+        model.addAttribute("action", VulnActions.LEER.toString());
+        model.addAttribute("action_request", new ActionRequest());
+        return "add_vuln_digital_active";
+    }
+
     @PostMapping("/add_vuln_at_fisic_active/action")
     public String GetAction(@ModelAttribute("action_request") ActionRequest action, Model model) {
 
