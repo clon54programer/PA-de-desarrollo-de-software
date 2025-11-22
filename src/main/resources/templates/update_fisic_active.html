@@ -25,7 +25,7 @@
     <p th:if="${fisic == null}">
         No existe ningun elemento con es ID.
     </p>
-
+    <h2 th:if="${fisic != null}">Actualize el activo</h2>
     <form th:if="${fisic != null}" th:action="@{/update_fisic_active/save}" method="post" th:object="${active}">
 
         <input type="hidden" th:field="*{id}" />

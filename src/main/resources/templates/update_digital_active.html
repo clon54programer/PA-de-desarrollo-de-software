@@ -25,6 +25,7 @@
         No existe ningun elemento con es ID.
     </p>
 
+    <h2 th:if="${digital != null}">Actualize el activo</h2>
     <form th:if="${digital != null}" th:action="@{/update_digital_active/save}" method="post" th:object="${active}">
 
         <input type="hidden" th:field="*{id}" />
