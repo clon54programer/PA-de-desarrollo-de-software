@@ -2,7 +2,7 @@
 - login (x)
 - registro (x)
 - asignacion de vulnerabilidades (x)
-- asignacion de recomendaciones
+- asignacion de recomendaciones (descartada)
 --------------------------------------------------------
 
 tablas de la base de datos, soft_pa
