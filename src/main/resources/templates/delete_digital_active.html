@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Eliminar activo digital</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+
+
+<h2>Ingresa el id del activo que quieres actualizar</h2>
+<form th:action="@{/delete_digital_active}" method="post">
+    <input type="text" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+    <button type="submit">Buscar</button>
+</form>
+
+<p th:text="${message}"></p>
+
+<body>
+
+</body>
