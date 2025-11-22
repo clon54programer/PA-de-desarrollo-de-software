@@ -378,6 +378,15 @@ public class MainController {
         return "add_vuln_fisic_active";
     }
 
+    @PostMapping("/add_vuln_at_digital_active/delete")
+    public String DeleteForIDAatdigitalActive(@RequestParam("id") long id, Model model) {
+
+        vulnRepository.deleteById(id);
+        model.addAttribute("delete_message", "Se elimino la vulnerabiliad");
+
+        return "add_vuln_digital_active";
+    }
+
     public class VulnDTO {
         public Long activoAfectadoId;
 

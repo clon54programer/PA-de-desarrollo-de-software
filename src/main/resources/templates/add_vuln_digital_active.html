@@ -144,6 +144,14 @@
     </form>
 
 
+    <form th:if="${action_select=='ELIMINAR'}" th:action="@{/add_vuln_at_digital_active/delete}" method="post">
+        <input type="number" name="id" placeholder="Ingrese el id de la vulnerabilidad a eliminar">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <h2 th:text="${delete_message}"></h2>
+
+
 
 
     <a href="/path">home</a>
