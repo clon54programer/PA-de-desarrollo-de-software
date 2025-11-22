@@ -1,4 +1,4 @@
-- crud de activos (falta la forma de eliminar los activos.)
+- crud de activos (x)
 - login (x)
 - registro (x)
 - asignacion de vulnerabilidades (x)
