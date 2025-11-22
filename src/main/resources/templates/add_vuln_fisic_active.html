@@ -11,11 +11,13 @@
 
     <h2>Activos fisicos</h2>
 
-
+    <h2>Buscar el activo</h2>
     <form th:action="@{/add_vuln_at_fisic_active}" method="post">
         <input type="text" name="name" th:value="${name}" placeholder="Ingrese nombre">
         <button type="submit">Buscar</button>
     </form>
+
+    <h2>Buscar el activo para poder agregar, eliminar y leer las vulnerabilidades</h2>
 
     <form th:action="@{/add_vuln_at_fisic_active}" method="post">
         <input type="number" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
