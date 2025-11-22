@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activos Digitales</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 
 
@@ -14,7 +14,7 @@
     <h2>Activos Digitales</h2>
 
     <h2>Buscar el activo</h2>
-    <form th:action="@{/add_vuln_at_digital_active}" method="post">
+    <form th:action=" @{/add_vuln_at_digital_active}" method="post">
         <input type="text" name="name" th:value="${name}" placeholder="Ingrese nombre">
         <button type="submit">Buscar</button>
     </form>
@@ -81,6 +81,7 @@
     </div>
 
 
+    <h2 th:if="${action_select=='LEER'}">Ingrese el id del activo para ver sus vulnerabilidades</h2>
     <form th:if="${action_select=='LEER'}" th:action="@{/add_vuln_at_digital_active/get}" method="post">
         <input type="number" name="id" placeholder="Ingrese el id del activo">
         <button type="submit">Buscar</button>
@@ -143,7 +144,7 @@
         <button type="submit">Guardar</button>
     </form>
 
-
+    <h2 th:if="${action_select=='ELIMINAR'}">Coloque la id de la vulnerabilidad que quiera eliminar</h2>
     <form th:if="${action_select=='ELIMINAR'}" th:action="@{/add_vuln_at_digital_active/delete}" method="post">
         <input type="number" name="id" placeholder="Ingrese el id de la vulnerabilidad a eliminar">
         <button type="submit">Buscar</button>
