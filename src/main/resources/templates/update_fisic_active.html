@@ -10,12 +10,13 @@
     <h1>Buscar activo fisico</h1>
 
     <!-- Formulario -->
+    <h2>Buscar el activo </h2>
     <form th:action="@{/update_fisic_active}" method="post">
         <input type="text" name="name" th:value="${name}" placeholder="Ingrese nombre">
         <button type="submit">Buscar</button>
     </form>
 
-
+    <h2>Ingresa el id del activo que quieres actualizar</h2>
     <form th:action="@{/update_fisic_active}" method="post">
         <input type="text" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
         <button type="submit">Buscar</button>
