@@ -90,6 +90,21 @@ public class MainController {
         return "activo_success";
     }
 
+    @GetMapping("/delete_fisic_active")
+    public String ShowDeleteFisicActive(Model model) {
+        model.addAttribute("message", "");
+        return "delete_fisic_active";
+    }
+
+    @PostMapping("/delete_fisic_active")
+    public String DeleteFisicActive(@RequestParam("id") Long id, Model model) {
+        activoFisicoRepo.deleteById(id);
+
+        model.addAttribute("message", "Se elimino el activo");
+
+        return "delete_fisic_active";
+    }
+
     @GetMapping("/show_fisic_active")
     public String GetFisicActive(Model model) {
         List<ActiveFisic> activos_fisicos = activoFisicoRepo.findAll();
