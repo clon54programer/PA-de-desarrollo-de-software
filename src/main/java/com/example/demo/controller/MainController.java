@@ -289,6 +289,9 @@ public class MainController {
             model.addAttribute("action_select", action.getAction().toString());
             System.out.println("action " + action.getAction().toString());
             model.addAttribute("vulns", null);
+        } else if (action.getAction() == VulnActions.ELIMINAR) {
+            model.addAttribute("action_select", action.getAction().toString());
+            System.out.println("action " + action.getAction().toString());
         }
 
         System.out.println("de");
@@ -299,6 +302,15 @@ public class MainController {
     @PostMapping("/add_vuln_at_fisic_active/get")
     public String GetVulnForIDAatFisicActive(@RequestParam("id") long id, Model model) {
         model.addAttribute("vulns", vulnRepository.findByActivoAfectadoId(id));
+        return "add_vuln_fisic_Active";
+    }
+
+    @PostMapping("/add_vuln_at_fisic_active/delete")
+    public String DeleteForIDAatFisicActive(@RequestParam("id") long id, Model model) {
+
+        vulnRepository.deleteById(id);
+        model.addAttribute("delete_message", "Se elimino la vulnerabiliad");
+
         return "add_vuln_fisic_Active";
     }
 

@@ -86,6 +86,13 @@
         <button type="submit">Buscar</button>
     </form>
 
+    <form th:if="${action_select=='ELIMINAR'}" th:action="@{/add_vuln_at_fisic_active/delete}" method="post">
+        <input type="number" name="id" placeholder="Ingrese el id de la vulnerabilidad a eliminar">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <h2 th:text="${delete_message}"></h2>
+
 
     <table th:if="${vulns != null}" border="1">
         <thead>
