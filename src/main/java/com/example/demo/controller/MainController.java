@@ -335,10 +335,38 @@ public class MainController {
         return "add_vuln_fisic_active";
     }
 
+    @PostMapping("/add_vuln_at_digital_active/action")
+    public String GetActionDigital(@ModelAttribute("action_request") ActionRequest action, Model model) {
+
+        if (action.getAction() == VulnActions.AGREGAR) {
+            model.addAttribute("action_select", action.getAction().toString());
+            model.addAttribute("vuln", new VulnDTO());
+            model.addAttribute("estados", Vuln.EstadoVulnerabilidad.values());
+            System.out.println("action " + action.getAction().toString());
+        } else if (action.getAction() == VulnActions.LEER) {
+            model.addAttribute("action_select", action.getAction().toString());
+            System.out.println("action " + action.getAction().toString());
+            model.addAttribute("vulns", null);
+        } else if (action.getAction() == VulnActions.ELIMINAR) {
+            model.addAttribute("action_select", action.getAction().toString());
+            System.out.println("action " + action.getAction().toString());
+        }
+
+        System.out.println("de");
+
+        return "add_vuln_digital_active";
+    }
+
     @PostMapping("/add_vuln_at_fisic_active/get")
     public String GetVulnForIDAatFisicActive(@RequestParam("id") long id, Model model) {
         model.addAttribute("vulns", vulnRepository.findByActivoAfectadoId(id));
         return "add_vuln_fisic_active";
+    }
+
+    @PostMapping("/add_vuln_at_digital_active/get")
+    public String GetVulnForIDAatDigitalActive(@RequestParam("id") long id, Model model) {
+        model.addAttribute("vulns", vulnRepository.findByActivoAfectadoId(id));
+        return "add_vuln_digital_active";
     }
 
     @PostMapping("/add_vuln_at_fisic_active/delete")
@@ -426,6 +454,32 @@ public class MainController {
 
         return "success_vuln";
     }
+
+    @PostMapping("/add_vuln_at_digital_active/add")
+    public String AddVulnAtDigitalActive(@ModelAttribute VulnDTO vulnDTO, Model model) {
+        System.out.println("[INFO] Se agrego la vuln" + vulnDTO);
+
+        Optional<ActivoDigital> active = activoDigitalRepo.findById(vulnDTO.activoAfectadoId);
+
+        if (active.isEmpty()) {
+            return "redirect:/err_vuln";
+        }
+        Vuln vuln = new Vuln();
+        vuln.setActivoAfectado(active.get());
+        vuln.setDescripcion(vulnDTO.descripcion);
+        vuln.setCve(vulnDTO.cve);
+        vuln.setFechaDeDescubrimiento(vulnDTO.fechaDeDescubrimiento);
+        vuln.setEstado(vulnDTO.estado);
+
+        vulnRepository.save(vuln);
+        String message = "Se agrego la vulnerabilidad de forma exitosa";
+
+        model.addAttribute("message", message);
+        model.addAttribute("name_active", active.get().getName());
+
+        return "success_vuln";
+    }
+
     // end asignacion de vulnerabiliades y recomendaciones
 
 }

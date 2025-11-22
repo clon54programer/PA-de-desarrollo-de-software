@@ -81,5 +81,70 @@
     </div>
 
 
+    <form th:if="${action_select=='LEER'}" th:action="@{/add_vuln_at_digital_active/get}" method="post">
+        <input type="number" name="id" placeholder="Ingrese el id del activo">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table th:if="${vulns != null}" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>CVE</th>
+                <th>Fecha de descubrimiento</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="vuln : ${vulns}">
+                <td th:text="${vuln.id}"></td>
+                <td th:text="${vuln.descripcion}"></td>
+                <td th:text="${vuln.cve}"></td>
+                <td th:text="${vuln.fechaDeDescubrimiento}"></td>
+                <td th:text="${vuln.estado}"></td>
+
+            </tr>
+        </tbody>
+    </table>
+
+
+    <form th:if="${action_select == 'AGREGAR'}" th:action="@{/add_vuln_at_digital_active/add}" th:object="${vuln}"
+        method="post">
+
+        <!-- Activo afectado -->
+        <label for="activoAfectadoId">ID del activo afectado:</label>
+        <input th:field="*{activoAfectadoId}" type="number" id="activoAfectadoId" required min="1" />
+        <br />
+
+
+        <!-- Descripción -->
+        <label for="descripcion">Descripción:</label>
+        <textarea th:field="*{descripcion}" id="descripcion" rows="4" cols="50"></textarea>
+        <br />
+
+        <!-- CVE -->
+        <label for="cve">CVE:</label>
+        <input type="text" th:field="*{cve}" id="cve" maxlength="20" />
+        <br />
+
+        <!-- Fecha de descubrimiento -->
+        <label for="fechaDeDescubrimiento">Fecha de descubrimiento:</label>
+        <input type="date" th:field="*{fechaDeDescubrimiento}" id="fechaDeDescubrimiento" />
+        <br />
+
+        <!-- Estado -->
+        <label for="estado">Estado:</label>
+        <select th:field="*{estado}" id="estado">
+            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
+        </select>
+        <br />
+
+        <button type="submit">Guardar</button>
+    </form>
+
+
+
+
     <a href="/path">home</a>
 </body>
