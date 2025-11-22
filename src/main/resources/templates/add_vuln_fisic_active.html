@@ -83,12 +83,13 @@
         <button type="submit">Guardar</button>
     </form>
 
-
+    <h2 th:if="${action_select=='LEER'}">Ingrese el id del activo para ver sus vulnerabilidades</h2>
     <form th:if="${action_select=='LEER'}" th:action="@{/add_vuln_at_fisic_active/get}" method="post">
         <input type="number" name="id" placeholder="Ingrese el id del activo">
         <button type="submit">Buscar</button>
     </form>
 
+    <h2 th:if="${action_select=='ELIMINAR'}">Coloque la id de la vulnerabilidad que quiera eliminar</h2>
     <form th:if="${action_select=='ELIMINAR'}" th:action="@{/add_vuln_at_fisic_active/delete}" method="post">
         <input type="number" name="id" placeholder="Ingrese el id de la vulnerabilidad a eliminar">
         <button type="submit">Buscar</button>
