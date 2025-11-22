@@ -246,9 +246,9 @@ public class MainController {
         return "add_vuln_fisic_active";
     }
 
-    @GetMapping("/add_vuln_at_fisic_active")
+    @GetMapping("/add_vuln_at_digital_active")
     public String ShowAddVulnAtDigitalActive(Model model) {
-        return "add_vuln_fisic_active";
+        return "add_vuln_digital_active";
     }
 
     @PostMapping(value = "/add_vuln_at_fisic_active", params = "name")
@@ -262,6 +262,19 @@ public class MainController {
 
         model.addAttribute("actives", actives);
         return "add_vuln_fisic_active";
+    }
+
+    @PostMapping(value = "/add_vuln_at_digital_active", params = "name")
+    public String SearchDigitalActiveForName(@RequestParam("name") String name, Model model) {
+        List<ActivoDigital> actives = activoDigitalRepo.findByNameContainingIgnoreCase(name);
+
+        System.out.println("actives: " + actives.isEmpty());
+        for (ActivoDigital active : actives) {
+            System.out.println("name: " + active.getName());
+        }
+
+        model.addAttribute("actives", actives);
+        return "add_vuln_digital_active";
     }
 
     @PostMapping(value = "/add_vuln_at_fisic_active", params = "id")
