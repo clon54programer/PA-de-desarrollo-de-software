@@ -246,6 +246,11 @@ public class MainController {
         return "add_vuln_fisic_active";
     }
 
+    @GetMapping("/add_vuln_at_fisic_active")
+    public String ShowAddVulnAtDigitalActive(Model model) {
+        return "add_vuln_fisic_active";
+    }
+
     @PostMapping(value = "/add_vuln_at_fisic_active", params = "name")
     public String SearchFisicActiveForName(@RequestParam("name") String name, Model model) {
         List<ActiveFisic> actives = activoFisicoRepo.findByNameContainingIgnoreCase(name);
@@ -256,7 +261,7 @@ public class MainController {
         }
 
         model.addAttribute("actives", actives);
-        return "add_vuln_fisic_Active";
+        return "add_vuln_fisic_active";
     }
 
     @PostMapping(value = "/add_vuln_at_fisic_active", params = "id")
@@ -274,7 +279,7 @@ public class MainController {
         model.addAttribute("active_name", active.getName());
         model.addAttribute("action", VulnActions.LEER.toString());
         model.addAttribute("action_request", new ActionRequest());
-        return "add_vuln_fisic_Active";
+        return "add_vuln_fisic_active";
     }
 
     @PostMapping("/add_vuln_at_fisic_active/action")
@@ -296,13 +301,13 @@ public class MainController {
 
         System.out.println("de");
 
-        return "add_vuln_fisic_Active";
+        return "add_vuln_fisic_active";
     }
 
     @PostMapping("/add_vuln_at_fisic_active/get")
     public String GetVulnForIDAatFisicActive(@RequestParam("id") long id, Model model) {
         model.addAttribute("vulns", vulnRepository.findByActivoAfectadoId(id));
-        return "add_vuln_fisic_Active";
+        return "add_vuln_fisic_active";
     }
 
     @PostMapping("/add_vuln_at_fisic_active/delete")
@@ -311,7 +316,7 @@ public class MainController {
         vulnRepository.deleteById(id);
         model.addAttribute("delete_message", "Se elimino la vulnerabiliad");
 
-        return "add_vuln_fisic_Active";
+        return "add_vuln_fisic_active";
     }
 
     public class VulnDTO {
