@@ -4,11 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activos fisicos</title>
+    <title>Activos Digitales</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 
 <body>
 
+    <h2>Activos Digitales</h2>
+
+    <h2>Buscar el activo</h2>
+    <form th:action="@{/add_vuln_at_digital_active}" method="post">
+        <input type="text" name="name" th:value="${name}" placeholder="Ingrese nombre">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <h2>Buscar el activo para poder agregar, eliminar y leer las vulnerabilidades</h2>
+
+    <form th:action="@{/add_vuln_at_digital_active}" method="post">
+        <input type="number" name="id" th:value="${id}" placeholder="Ingrese el id del activo">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <p th:if="${active == null}">
+        No existe ningun elemento con es ID.
+    </p>
+
+    <p th:if="${actives == null}">
+        No existe ningun elemento con ese nombre.
+    </p>
+
+    <table th:if="${actives != null}" border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Version</th>
+                <th>Licencia</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <!-- Ejemplo dinámico con Thymeleaf -->
+            <tr th:each="activo : ${actives}">
+                <td th:text="${activo.id}"></td>
+                <td th:text="${activo.name}"></td>
+                <td th:text="${activo.descripcion}"></td>
+                <td th:text="${activo.version}"></td>
+                <td th:text="${activo.licencia}"></td>
+                <td th:text="${activo.valor}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <a href="/path">home</a>
 </body>
