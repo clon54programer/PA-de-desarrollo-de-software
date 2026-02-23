@@ -1,8 +1,53 @@
-- crud de activos (x)
-- login (x)
-- registro (x)
-- asignacion de vulnerabilidades (x)
-- asignacion de recomendaciones (descartada)
+# Fases del proyecto
+##Fase 1: Configuración del Proyecto Django
+- Crear proyecto base con django-admin startproject vulnerability_manager.
+- Configurar conexión a PostgreSQL en settings.py.
+- Crear aplicación principal (core o scanner) para manejar modelos y lógica.
+- Instalar dependencias: python-nmap, psycopg2, django-crispy-forms, librerías de gráficos (plotly, matplotlib, django-chartjs).
+
+## Fase 2: Modelado de Datos en Django
+- Definir modelos en models.py basados en las tablas SQL (assets, services, cve_catalog, etc.).
+- Ejecutar migraciones (python manage.py makemigrations && migrate).
+- Crear admin.py para gestionar datos desde el panel de administración.
+- Probar inserciones iniciales de CVEs y activos.
+
+## Fase 3: Escaneo de Red con Nmap
+- Crear módulo en Django (scanner/nmap_utils.py) que use python-nmap.
+- Implementar función para escanear IPs/rangos y devolver servicios detectados.
+- Guardar resultados en modelos assets, services, scans, scan_results.
+- Integrar con Celery o Django-Q para ejecutar escaneos en segundo plano.
+
+## Fase 4: Correlación con CVEs
+- Crear lógica en scanner/correlation.py para comparar servicios detectados con cve_affected_products.
+- Insertar coincidencias en detected_vulnerabilities.
+- Definir reglas de confianza (exact match, rango de versiones, CPE match).
+- Crear comandos de Django (management/commands) para actualizar CVEs desde NVD.
+
+## Fase 5: Dashboard Web
+- Crear vistas en views.py para KPIs y gráficas.
+- Usar Django Templates + Bootstrap para interfaz amigable.
+
+- Implementar:
+    - KPIs principales (total vulnerabilidades, % activos vulnerables, etc.).
+    - Gráficos interactivos (severidad, top servicios vulnerables, tendencias).
+    - Tabla de riesgo y alertas.
+    - Configurar rutas en urls.py.
+
+## Fase 6: Gestión de Remediación
+- Crear modelo remediation_tickets.
+- Implementar vistas para crear, asignar y cerrar tickets.
+- Mostrar métricas de tiempo medio de remediación en el dashboard.
+- Integrar notificaciones por correo usando Django Email Backend.
+
+## Fase 7: Integración con Exploits
+- Crear modelo exploits y cargar datos de ExploitDB/Msf.
+- Relacionar exploits con CVEs detectados.
+- Mostrar en dashboard los CVEs con exploits disponibles.
+
+## Fase 8: Reportes y Compliance
+- Implementar exportación de reportes en PDF/Excel con django-reportlab o xlsxwriter.
+- Crear vistas para métricas de cumplimiento.
+- Automatizar alertas críticas (ej. vulnerabilidades sin parche) vía correo o notificaciones.
 --------------------------------------------------------
 
 Gestor de Vulnerabilidades y CVE (Vulnerability Manager)
