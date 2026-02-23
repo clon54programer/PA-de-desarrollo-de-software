@@ -1,33 +1,24 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Archivos de compilación
+*.egg-info/
+*.egg
+dist/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+
+# Archivos de base de datos y migraciones
+db.sqlite3
+*.db
+*.sqlite3
+migrations/__pycache__/
+migrations/*.pyc
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+#entorno virtuales
+.venv
 
 ### VS Code ###
 .vscode/
