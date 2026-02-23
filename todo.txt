@@ -5,43 +5,208 @@
 - asignacion de recomendaciones (descartada)
 --------------------------------------------------------
 
-tablas de la base de datos, soft_pa
+Gestor de Vulnerabilidades y CVE (Vulnerability Manager)
+Base de Datos: Repositorio local de vulnerabilidades (CVE) cruzado con los servicios detectados en la red.
+Interfaz Web: Dashboard que muestra "Puntos de Riesgo" (ej: Servidor con Apache versión vulnerable).
+Uso de python-nmap: Extracción de versiones de software (-sV) para compararlas con la base de datos.
 
-user:
-    id: PK
-    name: VARCHAR(80)
-    password: VARCHAR(255)
-# Es la clase base de los activos
-activosBase:
-    id: PK
-    name: VARCHAR(80)
-    descripcion: VARCHAR(255)
-    valor: DECIMAL(15,2)
+## 📊 Modelo de Datos para Vulnerability Manager
 
-# Es dispositivo electronico (impresoras, radios, telefonos, pc, etc...) que utiliza la empresa 
-activosFisico:
-    ubicacion: VARCHAR(255)
-    estado: enum(activo,en mantenimiento, retirao)
+### *1. Tabla de Activos/Equipos en Red*
+sql
+CREATE TABLE assets (
+    id SERIAL PRIMARY KEY,
+    ip_address INET NOT NULL,
+    hostname VARCHAR(255),
+    mac_address MACADDR,
+    os_type VARCHAR(100),
+    os_version VARCHAR(100),
+    os_cpe VARCHAR(255), -- Common Platform Enumeration
+    environment VARCHAR(50), -- 'production', 'staging', 'development'
+    criticality VARCHAR(20), -- 'critical', 'high', 'medium', 'low'
+    owner VARCHAR(100),
+    location VARCHAR(100),
+    first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_seen TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-# Es software que utiliza la empresa
-activosDigital:
-    licencia: VARCHAR(255)
-    version: VARCHAR(20)
+### **2. Tabla de Puertos y Servicios Detectados**
+sql
+CREATE TABLE services (
+    id BIGSERIAL PRIMARY KEY,
+    asset_id INTEGER REFERENCES assets(id) ON DELETE CASCADE,
+    port INTEGER NOT NULL,
+    protocol VARCHAR(10) NOT NULL, -- 'tcp', 'udp'
+    service_name VARCHAR(100) NOT NULL,
+    service_version VARCHAR(200),
+    service_product VARCHAR(200),
+    service_extrainfo TEXT,
+    service_cpe VARCHAR(255), -- CPE detectado por nmap
+    state VARCHAR(20), -- 'open', 'filtered', 'closed'
+    banner TEXT,
+    first_detected TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_detected TIMESTAMP,
+    is_active BOOLEAN DEFAULT true,
+    UNIQUE(asset_id, port, protocol)
+);
 
-#Es una vulneralidad detectada en un activo de la empresa
-vulnerabilidad:
-    ID: PK
-    activo_afectado: FK
-    descripcion: TEXT
-    cve: VARCHAR(20)
-    fecha_de_descubrimiento: DATE
-    estado: enum(parchada,no_parchada)
+### *3. Tabla de Vulnerabilidades (CVE Local)*
+sql
+CREATE TABLE cve_catalog (
+    id VARCHAR(20) PRIMARY KEY, -- CVE-YYYY-XXXXX
+    description TEXT,
+    published_date DATE,
+    last_modified_date DATE,
+    cvss2_score DECIMAL(3,1),
+    cvss2_vector VARCHAR(100),
+    cvss3_score DECIMAL(3,1),
+    cvss3_vector VARCHAR(100),
+    severity VARCHAR(20), -- 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW'
+    exploit_available BOOLEAN DEFAULT false,
+    exploitability_score DECIMAL(3,1),
+    impact_score DECIMAL(3,1),
+    attack_vector VARCHAR(50),
+    attack_complexity VARCHAR(20),
+    privileges_required VARCHAR(20),
+    user_interaction VARCHAR(20),
+    scope VARCHAR(20),
+    confidentiality_impact VARCHAR(20),
+    integrity_impact VARCHAR(20),
+    availability_impact VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-vulnerabilidad_recomendacion:
-    vulnerabilidad_id: int
-    recomendacion_id: int FK (lista)
+### **4. Tabla de Productos Afectados (CPE Mapping)**
+sql
+CREATE TABLE cve_affected_products (
+    id BIGSERIAL PRIMARY KEY,
+    cve_id VARCHAR(20) REFERENCES cve_catalog(id) ON DELETE CASCADE,
+    cpe_string VARCHAR(500) NOT NULL, -- cpe:2.3:a:vendor:product:version
+    vendor VARCHAR(200),
+    product VARCHAR(200),
+    version VARCHAR(100),
+    version_start_including VARCHAR(100),
+    version_end_including VARCHAR(100),
+    version_start_excluding VARCHAR(100),
+    version_end_excluding VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-# Es una recomendacion que se da para parchear una vulneravilidad
-recomendacion:
-    id: PK
-    descripcion: TEXT
+### *5. Tabla de Vulnerabilidades Detectadas (Matches)*
+sql
+CREATE TABLE detected_vulnerabilities (
+    id BIGSERIAL PRIMARY KEY,
+    asset_id INTEGER REFERENCES assets(id) ON DELETE CASCADE,
+    service_id BIGINT REFERENCES services(id) ON DELETE CASCADE,
+    cve_id VARCHAR(20) REFERENCES cve_catalog(id),
+    detection_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_seen TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'active', -- 'active', 'mitigated', 'false_positive', 'patched'
+    confidence VARCHAR(20), -- 'high', 'medium', 'low' (basado en match exacto vs fuzzy)
+    match_type VARCHAR(50), -- 'exact_version', 'version_range', 'cpe_match'
+    notes TEXT,
+    assigned_to VARCHAR(100),
+    due_date DATE,
+    remediation_steps TEXT,
+    verified_at TIMESTAMP,
+    verified_by VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+### **6. Tabla de Escaneos Realizados**
+sql
+CREATE TABLE scans (
+    id BIGSERIAL PRIMARY KEY,
+    scan_name VARCHAR(200),
+    scan_type VARCHAR(50), -- 'full', 'quick', 'incremental'
+    target_range CIDR[], -- Redes escaneadas
+    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    status VARCHAR(20), -- 'running', 'completed', 'failed', 'stopped'
+    nmap_arguments TEXT,
+    total_hosts INTEGER,
+    total_services INTEGER,
+    vulnerabilities_found INTEGER,
+    initiated_by VARCHAR(100),
+    error_log TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE scan_results (
+    id BIGSERIAL PRIMARY KEY,
+    scan_id BIGINT REFERENCES scans(id) ON DELETE CASCADE,
+    asset_id INTEGER REFERENCES assets(id),
+    service_id BIGINT REFERENCES services(id),
+    nmap_output XML,
+    raw_data JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+### **7. Tabla de Exploits Conocidos**
+sql
+CREATE TABLE exploits (
+    id SERIAL PRIMARY KEY,
+    exploit_id VARCHAR(100), -- EDB-ID, MSF, etc
+    cve_id VARCHAR(20) REFERENCES cve_catalog(id),
+    source VARCHAR(50), -- 'exploitdb', 'metasploit', 'github'
+    title TEXT,
+    type VARCHAR(50), -- 'remote', 'local', 'dos', 'webapps'
+    platform VARCHAR(50), -- 'windows', 'linux', 'multiple'
+    file_path VARCHAR(500),
+    verified BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+### *8. Tabla de Tickets/Remediación*
+```sql
+CREATE TABLE remediation_tickets (
+    id BIGSERIAL PRIMARY KEY,
+    vulnerability_id BIGINT REFERENCES detected_vulnerabilities(id),
+    ticket_number VARCHAR(50) UNIQUE,
+    status VARCHAR(50), -- 'open', 'in_progress', 'resolved', 'closed'
+    priority VARCHAR(20), -- 'critical', 'high', 'medium', 'low'
+    assigned_to VARCHAR(100),
+    created_by VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP,
+    resolved_at TIMESTAMP,
+    resolution_notes TEXT,
+    due_date DATE
+);
+
+El dashboard principal debería incluir:
+
+1. *KPIs Principales*
+   - Total vulnerabilidades activas
+   - Porcentaje de activos vulnerables
+   - Tiempo medio de remediación
+   - Vulnerabilidades críticas sin parche
+
+2. *Gráficos*
+   - Distribución por severidad (torta/barras)
+   - Top 10 servicios más vulnerables
+   - Tendencia de vulnerabilidades en el tiempo
+   - Mapa de calor por IP/rango
+
+3. *Tablas de Riesgo*
+   - Servidores con versiones vulnerables
+   - CVEs con exploits disponibles
+   - Activos sin escanear recientemente
+
+4. *Alertas*
+   - Nuevas CVEs que afectan tu infraestructura
+   - Vulnerabilidades críticas sin acción
+   - Servicios con versiones EOL
+
+Este modelo te permite:
+- *Automatizar* la correlación entre servicios detectados y CVEs
+- *Priorizar* riesgos basado en CVSS y explotabilidad
+- *Trackear* el progreso de remediación
+- *Generar* reportes de compliance
