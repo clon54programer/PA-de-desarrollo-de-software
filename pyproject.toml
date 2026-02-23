@@ -11,7 +11,9 @@ requires-python = ">= 3.12"
 
 authors = [
   {name = "Juan Chamorro", email = "clon5454@outlook.com"},
-  ]
-  
+]
+
 readme = "readme.md"
+
+[project.urls]
 Repository = "https://github.com/clon54programer/PA-de-desarrollo-de-software.git"
