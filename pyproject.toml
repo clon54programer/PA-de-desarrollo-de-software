@@ -11,6 +11,8 @@ requires-python = ">= 3.12"
 
 authors = [
   {name = "Juan Chamorro", email = "clon5454@outlook.com"},
+  {name = "Luis Tejada"},
+  {name = "Naikel Jaraba"},
 ]
 
 readme = "readme.md"
