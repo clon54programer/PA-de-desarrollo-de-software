@@ -8,7 +8,7 @@ def index(request):
 
 
 def prueba(request):
-    if request.user.is_authenticated:
+    if not request.user.is_authenticated:
         return render(request,"polls/404.html")
 
     return render(request,"polls/index.html",{"message" : "Hello world"})
