@@ -1,0 +1,4 @@
+python manage.py migrate
+
+# crea los usuarios
+python manage.py createsuperuser
