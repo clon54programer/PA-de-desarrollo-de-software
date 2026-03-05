@@ -4,11 +4,6 @@ from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("Hello world")
-
-
-def prueba(request):
     if not request.user.is_authenticated:
         return render(request,"polls/404.html")
-
-    return render(request,"polls/index.html",{"message" : "Hello world"})
+    return render(request,"polls/index.html",{"message" : f"Hello world, {request.user.username}"})
