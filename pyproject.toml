@@ -19,3 +19,6 @@ readme = "readme.md"
 
 [project.urls]
 Repository = "https://github.com/clon54programer/PA-de-desarrollo-de-software.git"
+
+[tool.setuptools]
+packages = ["src"] # 
