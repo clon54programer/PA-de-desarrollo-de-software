@@ -5,5 +5,5 @@ from django.shortcuts import render
 
 def index(request):
     if not request.user.is_authenticated:
-        return render(request,"polls/404.html")
-    return render(request,"polls/index.html",{"message" : f"Hello world, {request.user.username}"})
+        return render(request, "polls/404.html")
+    return render(request, "polls/index.html", {"message": f"Hello world, {request.user.username}"})
