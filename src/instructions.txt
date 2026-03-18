@@ -1,5 +1,9 @@
 python manage.py migrate
 python manage.py makemigrations
 
+
+
 # crea los usuarios
 python manage.py createsuperuser
+admin
+@11a
