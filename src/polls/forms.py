@@ -27,3 +27,14 @@ class PortsAndDomionsForm(forms.Form):
         except ValueError:
             raise forms.ValidationError(
                 "Los puertos deben ser números enteros separados por comas.")
+
+    def __str__(self):
+        dominio = self.cleaned_data.get("dominio", None)
+        puertos = self.cleaned_data.get("puertos", None)
+        return f"dominio: {dominio}\npuertos: {puertos}"
+
+    def get_dominio(self):
+        return self.cleaned_data.get("dominio", None)
+
+    def get_ports(self):
+        return self.cleaned_data.get("puertos", None)
