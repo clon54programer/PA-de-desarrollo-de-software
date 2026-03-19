@@ -30,9 +30,17 @@ class PortsAndDomionsForm(forms.Form):
             return ""
         try:
             str_flags = str(data)
+            str_flags = str_flags.replace("[", "").replace("]", "")
             print("type: ", type(str_flags))
             print("data: ", str_flags)
-            return str_flags
+
+            flags = []
+
+            for f in str_flags.split(","):
+                print("flag: ", f)
+                flags.append(f)
+
+            return flags
         except ValueError:
             raise forms.ValidationError(
                 "Los parametros deben estar separados por comas.")
@@ -60,10 +68,14 @@ class PortsAndDomionsForm(forms.Form):
     def __str__(self):
         dominio = self.cleaned_data.get("dominio", None)
         puertos = self.cleaned_data.get("puertos", None)
-        return f"dominio: {dominio}\npuertos: {puertos}"
+        flags = self.cleaned_data.get("flags", None)
+        return f"dominio: {dominio}\npuertos: {puertos}\nparametros: {flags}"
 
     def get_dominio(self):
         return self.cleaned_data.get("dominio", None)
 
     def get_ports(self):
         return self.cleaned_data.get("puertos", None)
+
+    def get_flags(self):
+        return self.clean_flags()
