@@ -22,8 +22,17 @@ class PortsAndDomionsForm(forms.Form):
         if not data:
             return []
         try:
-            # Convertir la cadena en lista de enteros
-            return [int(p.strip()) for p in data.split(",") if p.strip()]
+            str_data = str(data)
+            print(str_data)
+            print(type(str_data))
+            str_data = str_data.replace("[", "").replace("]", "")
+
+            ports = []
+            for number in str_data.split(","):
+                print("number: ", number)
+                ports.append(int(number))
+
+            return ports
         except ValueError:
             raise forms.ValidationError(
                 "Los puertos deben ser números enteros separados por comas.")
