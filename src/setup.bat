@@ -2,4 +2,4 @@
 
 
 python manage.py migrate
-makemigrations polls
+python manage.py makemigrations polls
