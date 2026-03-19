@@ -9,6 +9,15 @@
 
 <body>
 
+    <div>
+        <h1>Formulario</h1>
+        <form action="scan" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
 </body>
 
 </html>
