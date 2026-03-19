@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+import nmap
+from .forms import PortsAndDomionsForm
 # Create your views here.
 
 
@@ -11,5 +13,13 @@ def index(request):
 
 
 @login_required
-def init_scanner(request):
-    return render(request, "polls/scan.html", {"title": "scanner"})
+def scanner(request):
+
+    if request.method != "GET" or request.method != "POST":
+        return render(request, "polls/404.html")
+
+    if request.method == "GET":
+        return render(request, "polls/scan.html", {
+            "title": "scanner",
+            "form": PortsAndDomionsForm()
+        })
