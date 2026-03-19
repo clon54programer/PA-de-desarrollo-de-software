@@ -26,7 +26,7 @@ def scanner(request):
 
     form = PortsAndDomionsForm(request.POST)
 
-    if not form.is_valid() or form.clean_puertos():
+    if not form.is_valid():
         message = "El formulario no es valido"
         return render(request, "polls/scan.html", {
             "title": "scanner",
@@ -35,6 +35,7 @@ def scanner(request):
         })
 
     print(form)
+    form.clean_puertos()
     # print("dominio:", form.dominio)
     # print("puertos: ", form.puertos)
     return render(request, "polls/scan_result.html", {"title": form.get_dominio()})
