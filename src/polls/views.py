@@ -12,4 +12,4 @@ def index(request):
 
 @login_required
 def init_scanner(request):
-    return render(request, "polls/scan")
+    return render(request, "polls/scan.html", {"title": "scanner"})
