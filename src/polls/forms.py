@@ -17,6 +17,26 @@ class PortsAndDomionsForm(forms.Form):
         help_text="Lista de puertos separados por comas. Puede dejarse vacío."
     )
 
+    flags = forms.CharField(
+        label="Parametros",
+        required=False,
+        widget=forms.Textarea(attrs={'placeholder': 'Sv,O'}),
+        help_text="Son los parametros que utilizan nmap para realizar sus escaneos"
+    )
+
+    def clean_flags(self):
+        data = self.cleaned_data.get("flags")
+        if not data:
+            return ""
+        try:
+            str_flags = str(data)
+            print("type: ", type(str_flags))
+            print("data: ", str_flags)
+            return str_flags
+        except ValueError:
+            raise forms.ValidationError(
+                "Los parametros deben estar separados por comas.")
+
     def clean_puertos(self):
         data = self.cleaned_data.get("puertos")
         if not data:
