@@ -36,7 +36,15 @@ def scanner(request):
 
     print(form)
     form.clean_puertos()
-    nm = nmap.PortScanner()
+    nm = None
+    try:
+        nm = nmap.PortScanner()
+    except nmap.nmap.PortScannerError:
+        return render(request, "polls/error.html",
+                      {
+                          "title": "error",
+                          "message": "NMAP no esta en el path"
+                      })
 
     nm.scan(form.get_dominio(), form.get_ports())
 
