@@ -9,9 +9,10 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Instalamos dependencias del sistema necesarias para nmap
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nmap \
-    && rm -rf /var/lib/apt/lists/*
+RUN  apt-get update && \
+    apt-get install -y --no-install-recommends nmap && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copiamos archivos de configuración de dependencias
 COPY pyproject.toml .
