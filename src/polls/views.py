@@ -36,6 +36,8 @@ def scanner(request):
 
     print(form)
     form.clean_puertos()
-    # print("dominio:", form.dominio)
-    # print("puertos: ", form.puertos)
+    nm = nmap.PortScanner()
+
+    nm.scan(form.get_dominio(), form.get_ports())
+
     return render(request, "polls/scan_result.html", {"title": form.get_dominio()})
