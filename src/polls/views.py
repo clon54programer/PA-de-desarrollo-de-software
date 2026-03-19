@@ -15,7 +15,7 @@ def index(request):
 @login_required
 def scanner(request):
 
-    if request.method != "GET" or request.method != "POST":
+    if request.method != "GET" and request.method != "POST":
         return render(request, "polls/404.html")
 
     if request.method == "GET":
@@ -23,3 +23,18 @@ def scanner(request):
             "title": "scanner",
             "form": PortsAndDomionsForm()
         })
+
+    form = PortsAndDomionsForm(request.POST)
+
+    if not form.is_valid() or form.clean_puertos():
+        message = "El formulario no es valido"
+        return render(request, "polls/scan.html", {
+            "title": "scanner",
+            "form": PortsAndDomionsForm(),
+            "message": message
+        })
+
+    print(form)
+    # print("dominio:", form.dominio)
+    # print("puertos: ", form.puertos)
+    return render(request, "polls/scan_result.html", {"title": form.get_dominio()})
