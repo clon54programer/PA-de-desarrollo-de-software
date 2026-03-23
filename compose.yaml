@@ -8,10 +8,16 @@ services:
       - "8000:8000"
     environment:
       - DEBUG=1
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=adminpass
     stdin_open: true
     tty: true
     networks:
       - pa_network
+    command: >
+      sh -c "python manage.py makemigrations polls &&
+             python manage.py migrate &&
 
 networks:
   pa_network:
