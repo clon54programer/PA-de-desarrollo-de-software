@@ -1,5 +1,5 @@
 # Usamos una imagen ligera de Python 3.12
-FROM debian:bookworm
+FROM python:3.12-slim
 
 # Evita que Python genere archivos .pyc y permite ver logs en tiempo real
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -9,20 +9,18 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Instalamos dependencias del sistema necesarias para nmap
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     nmap \
-    python3 \
-    python3-pip \
-    python3-setuptools \
-    python3-venv \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copiamos archivos de configuración de dependencias
 COPY pyproject.toml .
+# si tu proyecto lo requiere
+COPY readme.md .   
+# copiar el código fuente
+COPY src ./src     
 
-RUN python3 -m venv .venv
+RUN python3.12 -m venv .venv
 ENV PATH="/venv/bin:$PATH"
 
 # Instalamos las dependencias usando pip
