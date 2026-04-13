@@ -59,5 +59,6 @@ def scanner(request):
         hilo = threading.Thread(target=scan_task, args=(dominio, puertos, flags))
         # Lo iniciamos (no bloquea la vista)
         hilo.start()
+        return render(request, "polls/scan_peding.html", {"dominio": dominio})
 
     return render(request, "polls/404.html")
