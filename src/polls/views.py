@@ -45,11 +45,15 @@ def scanner(request):
             puertos = form.cleaned_data.get("puertos")
             flags = form.get_flags() or ""
 
-            # Ejecutar el escaneo
-            # Agregamos -oX - para asegurar que la salida sea XML compatible con la librería
-            nm.scan(hosts=dominio, ports=puertos, arguments=flags)
-
-            resultados = nm[dominio] if dominio in nm.all_hosts() else {}
+            if dominio in nm.all_hosts():
+                resultados = nm[dominio]
+            else:
+                # Si nmap terminó pero no encontró el host
+                return render(
+                    request,
+                    "polls/error.html",
+                    {"message": "No se encontraron resultados para ese host."},
+                )
 
             return render(
                 request,
