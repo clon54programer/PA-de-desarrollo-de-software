@@ -8,6 +8,47 @@
 </head>
 
 <body>
+    <h2>Resultados del escaneo para: {{ title }}</h2>
+
+    {% if resultados %}
+    <div class="scan-info">
+        <p><strong>Estado del Host:</strong> {{ resultados.state }}</p>
+
+        {% if resultados.all_protocols %}
+        {% for proto in resultados.all_protocols %}
+        <h3>Protocolo: {{ proto|upper }}</h3>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Puerto</th>
+                    <th>Estado</th>
+                    <th>Servicio</th>
+                    <th>Versión</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for port, info in resultados[proto].items() %}
+                <tr>
+                    <td>{{ port }}</td>
+                    <td>{{ info.state }}</td>
+                    <td>{{ info.name }}</td>
+                    <td>{{ info.product }} {{ info.version }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+        {% else %}
+        <p>No se encontraron puertos abiertos o protocolos activos.</p>
+        {% endif %}
+
+    </div>
+    {% else %}
+    <p>No se obtuvieron resultados para este dominio/IP.</p>
+    {% endif %}
+
+
     <a href="{% url 'scan' %}">realizar un nuevo scan</a>
 </body>
 
