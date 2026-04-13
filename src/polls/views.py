@@ -3,13 +3,18 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 import nmap
 from .forms import PortsAndDomionsForm
+
 # Create your views here.
 
 
 def index(request):
     if not request.user.is_authenticated:
         return render(request, "polls/404.html")
-    return render(request, "polls/index.html", {"message": f"Hello world, {request.user.username}"})
+    return render(
+        request,
+        "polls/index.html",
+        {"message": f"Hello world, {request.user.username}"},
+    )
 
 
 @login_required
@@ -19,20 +24,21 @@ def scanner(request):
         return render(request, "polls/404.html")
 
     if request.method == "GET":
-        return render(request, "polls/scan.html", {
-            "title": "scanner",
-            "form": PortsAndDomionsForm()
-        })
+        return render(
+            request,
+            "polls/scan.html",
+            {"title": "scanner", "form": PortsAndDomionsForm()},
+        )
 
     form = PortsAndDomionsForm(request.POST)
 
     if not form.is_valid():
         message = "El formulario no es valido"
-        return render(request, "polls/scan.html", {
-            "title": "scanner",
-            "form": PortsAndDomionsForm(),
-            "message": message
-        })
+        return render(
+            request,
+            "polls/scan.html",
+            {"title": "scanner", "form": PortsAndDomionsForm(), "message": message},
+        )
 
     print(form)
     form.clean_puertos()
@@ -42,11 +48,11 @@ def scanner(request):
     try:
         nm = nmap.PortScanner()
     except nmap.nmap.PortScannerError:
-        return render(request, "polls/error.html",
-                      {
-                          "title": "error",
-                          "message": "NMAP no esta en el path"
-                      })
+        return render(
+            request,
+            "polls/error.html",
+            {"title": "error", "message": "NMAP no esta en el path"},
+        )
 
     nm.scan(form.get_dominio(), form.get_ports())
 
