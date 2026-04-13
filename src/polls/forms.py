@@ -50,10 +50,10 @@ class PortsAndDomionsForm(forms.Form):
     No se debe usar esta funcion
     """
 
-    def clean_puertos(self):
+    def clean_puertos(self) -> None | list:
         data = self.cleaned_data.get("puertos")
         if not data:
-            return []
+            return None
         try:
             str_data = str(data)
             print(str_data)
