@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{dominio}}</title>
+</head>
+
+<body>
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>🚀 Escaneo iniciado para: {{ dominio }}</h2>
+        <p>Nmap está trabajando en segundo plano. Esto puede tardar unos minutos.</p>
+        <div class="loader"></div>
+        <p>Puedes seguir navegando por la aplicación. El resultado aparecerá en la terminal (o en tu base de datos si la
+            configuras).</p>
+
+        <a href="{% url 'scan' %}">Volver al escáner</a>
+    </div>
+
+</body>
+
+</html>
