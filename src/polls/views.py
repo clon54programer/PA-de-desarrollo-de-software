@@ -42,8 +42,8 @@ def scanner(request):
 
     print(form)
     form.clean_puertos()
-    form.clean_flags()
-    print("flags: ", form.clean_flags())
+
+    print("flags: ", form.get_flags())
     nm = None
     try:
         nm = nmap.PortScanner()
