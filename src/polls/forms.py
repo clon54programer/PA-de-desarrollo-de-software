@@ -6,22 +6,21 @@ class PortsAndDomionsForm(forms.Form):
         label="Dominio",
         max_length=255,
         required=True,
-        widget=forms.TextInput(
-            attrs={'placeholder': 'ejemplo.com  o 192.168.1.1'})
+        widget=forms.TextInput(attrs={"placeholder": "ejemplo.com  o 192.168.1.1"}),
     )
 
     puertos = forms.CharField(
         label="Puertos",
         required=False,
-        widget=forms.Textarea(attrs={'placeholder': '80, 443, 22'}),
-        help_text="Lista de puertos separados por comas. Puede dejarse vacío."
+        widget=forms.Textarea(attrs={"placeholder": "80, 443, 22"}),
+        help_text="Lista de puertos separados por comas. Puede dejarse vacío.",
     )
 
     flags = forms.CharField(
         label="Parametros",
         required=False,
-        widget=forms.Textarea(attrs={'placeholder': 'Sv,O'}),
-        help_text="Son los parametros que utilizan nmap para realizar sus escaneos"
+        widget=forms.Textarea(attrs={"placeholder": "Sv,O"}),
+        help_text="Son los parametros que utilizan nmap para realizar sus escaneos",
     )
 
     def clean_flags(self):
@@ -43,7 +42,13 @@ class PortsAndDomionsForm(forms.Form):
             return flags
         except ValueError:
             raise forms.ValidationError(
-                "Los parametros deben estar separados por comas.")
+                "Los parametros deben estar separados por comas."
+            )
+
+    """
+    ## Advertencia
+    No se debe usar esta funcion
+    """
 
     def clean_puertos(self):
         data = self.cleaned_data.get("puertos")
@@ -63,7 +68,8 @@ class PortsAndDomionsForm(forms.Form):
             return ports
         except ValueError:
             raise forms.ValidationError(
-                "Los puertos deben ser números enteros separados por comas.")
+                "Los puertos deben ser números enteros separados por comas."
+            )
 
     def __str__(self):
         dominio = self.cleaned_data.get("dominio", None)
@@ -78,4 +84,4 @@ class PortsAndDomionsForm(forms.Form):
         return self.cleaned_data.get("puertos", None)
 
     def get_flags(self):
-        return self.clean_flags()
+        return self.cleaned_data.get("puertos")
