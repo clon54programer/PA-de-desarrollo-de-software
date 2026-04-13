@@ -41,7 +41,7 @@ def scanner(request):
         )
 
     print(form)
-    form.clean_puertos()
+    # form.clean_puertos()
 
     print("flags: ", form.get_flags())
     nm = None
@@ -53,7 +53,7 @@ def scanner(request):
             "polls/error.html",
             {"title": "error", "message": "NMAP no esta en el path"},
         )
-    if form.flags is None:
+    if form.get_flags() is None:
         nm.scan(form.get_dominio(), form.get_ports())
     else:
         nm.scan(form.get_dominio(), form.get_ports(), arguments=form.get_flags())
