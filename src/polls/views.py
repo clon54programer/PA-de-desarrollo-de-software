@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 import nmap
 from .forms import PortsAndDomionsForm
+import threading
 
 # Create your views here.
 
@@ -15,6 +16,18 @@ def index(request):
         "polls/index.html",
         {"message": f"Hello world, {request.user.username}"},
     )
+
+
+def scan_task(dominio, puertos, flags):
+    print(f"--- Iniciando escaneo de fondo para {dominio} ---")
+    nm = nmap.PortScanner()
+    try:
+        nm.scan(hosts=dominio, ports=puertos, arguments=flags)
+        # Aquí es donde guardarías en la base de datos en un proyecto real
+        print(f"--- Escaneo finalizado para {dominio} ---")
+        print(nm[dominio].get("tcp", {}))
+    except Exception as e:
+        print(f"Error en el hilo de nmap: {e}")
 
 
 @login_required
@@ -39,34 +52,12 @@ def scanner(request):
                 },
             )
 
-        try:
-            nm = nmap.PortScanner()
-            dominio = form.cleaned_data.get("dominio")
-            puertos = form.cleaned_data.get("puertos")
-            flags = form.get_flags() or ""
+        dominio = form.get_dominio()
+        puertos = form.get_ports()
+        flags = form.get_flags() or ""
 
-            if dominio in nm.all_hosts():
-                resultados = nm[dominio]
-            else:
-                # Si nmap terminó pero no encontró el host
-                return render(
-                    request,
-                    "polls/error.html",
-                    {"message": "No se encontraron resultados para ese host."},
-                )
-
-            return render(
-                request,
-                "polls/scan_result.html",
-                {"title": dominio, "resultados": resultados},
-            )
-
-        except nmap.PortScannerError as e:
-            return render(request, "polls/error.html", {"message": f"Nmap error: {e}"})
-        except Exception as e:
-            # Aquí capturarás el Broken Pipe y verás el mensaje real
-            return render(
-                request, "polls/error.html", {"message": f"Error inesperado: {str(e)}"}
-            )
+        hilo = threading.Thread(target=scan_task, args=(dominio, puertos, flags))
+        # Lo iniciamos (no bloquea la vista)
+        hilo.start()
 
     return render(request, "polls/404.html")
