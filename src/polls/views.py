@@ -19,10 +19,6 @@ def index(request):
 
 @login_required
 def scanner(request):
-
-    if request.method != "GET" and request.method != "POST":
-        return render(request, "polls/404.html")
-
     if request.method == "GET":
         return render(
             request,
@@ -30,32 +26,43 @@ def scanner(request):
             {"title": "scanner", "form": PortsAndDomionsForm()},
         )
 
-    form = PortsAndDomionsForm(request.POST)
+    if request.method == "POST":
+        form = PortsAndDomionsForm(request.POST)
+        if not form.is_valid():
+            return render(
+                request,
+                "polls/scan.html",
+                {
+                    "title": "scanner",
+                    "form": form,
+                    "message": "El formulario no es válido",
+                },
+            )
 
-    if not form.is_valid():
-        message = "El formulario no es valido"
-        return render(
-            request,
-            "polls/scan.html",
-            {"title": "scanner", "form": PortsAndDomionsForm(), "message": message},
-        )
+        try:
+            nm = nmap.PortScanner()
+            dominio = form.cleaned_data.get("dominio")
+            puertos = form.cleaned_data.get("puertos")
+            flags = form.get_flags() or ""
 
-    print(form)
-    # form.clean_puertos()
+            # Ejecutar el escaneo
+            # Agregamos -oX - para asegurar que la salida sea XML compatible con la librería
+            nm.scan(hosts=dominio, ports=puertos, arguments=flags)
 
-    print("flags: ", form.get_flags())
-    nm = None
-    try:
-        nm = nmap.PortScanner()
-    except nmap.nmap.PortScannerError:
-        return render(
-            request,
-            "polls/error.html",
-            {"title": "error", "message": "NMAP no esta en el path"},
-        )
-    if form.get_flags() is None:
-        nm.scan(form.get_dominio(), form.get_ports())
-    else:
-        nm.scan(form.get_dominio(), form.get_ports(), arguments=form.get_flags())
+            resultados = nm[dominio] if dominio in nm.all_hosts() else {}
 
-    return render(request, "polls/scan_result.html", {"title": form.get_dominio()})
+            return render(
+                request,
+                "polls/scan_result.html",
+                {"title": dominio, "resultados": resultados},
+            )
+
+        except nmap.PortScannerError as e:
+            return render(request, "polls/error.html", {"message": f"Nmap error: {e}"})
+        except Exception as e:
+            # Aquí capturarás el Broken Pipe y verás el mensaje real
+            return render(
+                request, "polls/error.html", {"message": f"Error inesperado: {str(e)}"}
+            )
+
+    return render(request, "polls/404.html")
