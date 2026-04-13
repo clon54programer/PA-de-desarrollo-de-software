@@ -53,7 +53,9 @@ def scanner(request):
             "polls/error.html",
             {"title": "error", "message": "NMAP no esta en el path"},
         )
-
-    nm.scan(form.get_dominio(), form.get_ports())
+    if form.flags is None:
+        nm.scan(form.get_dominio(), form.get_ports())
+    else:
+        nm.scan(form.get_dominio(), form.get_ports(), arguments=form.get_flags())
 
     return render(request, "polls/scan_result.html", {"title": form.get_dominio()})
