@@ -17,11 +17,13 @@
         <tr>
             <th>Dominio</th>
             <th>fecha</th>
+            <th>Servicio</th>
 
         </tr>
         <tr>
             <td>{{result.dominio}}</td>
             <td>{{result.fecha}}</td>
+            <td><a href="{% url 'service_result' %}?service_id={{result.servicio.id}}"></a></td>
         </tr>
 
 
