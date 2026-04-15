@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 import nmap
 from .forms import PortsAndDomionsForm
 import threading
-from .models import ScanResult
+from .models import ScanResult, ServiceResult, HostScan
 import json
 
 # Create your views here.
@@ -84,3 +84,15 @@ def view_result(request):
         "polls/scan_result.html",
         {"is_null": is_null, "results": scan_result, "title": "resultados"},
     )
+
+
+@login_required
+def get_services(request):
+    if request.method != "GET":
+        return render(request, "polls/404.html")
+    service_id = request.GET.get("service_id")
+
+    service = ServiceResult.objects.get(id=service_id)
+
+    # Aquí podrías usar esa info para filtrar tu base de datos
+    return render(request, "lista.html", {"title": service.name, "service": service})
