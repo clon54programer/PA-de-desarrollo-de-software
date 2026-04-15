@@ -91,8 +91,9 @@ def get_services(request):
     if request.method != "GET":
         return render(request, "polls/404.html")
     service_id = request.GET.get("service_id", None)
+    print("[INFO] Servicio id: " + service_id)
 
-    if service_id is None:
+    if service_id == None:
         return render(
             request,
             "polls/scan_service_result.html",
