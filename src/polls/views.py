@@ -106,5 +106,5 @@ def get_services(request):
     return render(
         request,
         "polls/scan_service_result.html",
-        {"title": service.name, "service": service},
+        {"title": service.name, "service": service, "id": service_id},
     )
