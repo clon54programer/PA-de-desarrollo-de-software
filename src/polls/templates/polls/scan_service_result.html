@@ -14,7 +14,7 @@
     {% else %}
 
     <h2>Servicio</h2>
-    {% for s in service %}
+
     <table>
         <tr>
             <th>Nombre</th>
@@ -28,18 +28,18 @@
             <th>Cpe</th>
         </tr>
         <tr>
-            <td>{{s.name}}</td>
-            <td>{{s.port}}</td>
-            <td>{{s.state}}</td>
-            <td>{{s.version}}</td>
-            <td>{{s.protocol}}</td>
-            <td>{{s.extraversion}}</td>
-            <td>{{s.reason}}</td>
-            <td>{{s.conf}}</td>
-            <td>{{s.cpe}}</td>
+            <td>{{service.name}}</td>
+            <td>{{service.port}}</td>
+            <td>{{service.state}}</td>
+            <td>{{service.version}}</td>
+            <td>{{service.protocol}}</td>
+            <td>{{service.extraversion}}</td>
+            <td>{{service.reason}}</td>
+            <td>{{service.conf}}</td>
+            <td>{{service.cpe}}</td>
         </tr>
     </table>
-    {% endfor %}
+
 
 
     <h2>Host scan</h2>
