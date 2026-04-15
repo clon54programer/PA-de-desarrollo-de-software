@@ -68,3 +68,17 @@ def scanner(request):
         return render(request, "polls/scan_peding.html", {"dominio": dominio})
 
     return render(request, "polls/404.html")
+
+
+@login_required
+def view_result(request):
+    if request.method != "GET":
+        return render(request, "polls/404.html")
+    scan_result = ScanResult.objects.all()
+    is_null = True
+    if scan_result != None:
+        is_null = False
+
+    return render(
+        request, "polls/scan_result.html", {"is_null": is_null, "results": scan_result}
+    )
