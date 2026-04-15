@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 import nmap
 from .forms import PortsAndDomionsForm
 import threading
-from models import ScanResult
+from .models import ScanResult
 import json
 
 # Create your views here.
@@ -30,6 +30,7 @@ def scan_task(dominio, puertos, flags):
         print(nm[dominio].get("tcp", {}))
         if dominio in nm.all_hosts():
             save_scan_result = ScanResult()
+            save_scan_result.dominio = dominio
             save_scan_result.data_json = json.dump(nm[dominio])
             save_scan_result.save()
 
