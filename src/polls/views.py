@@ -80,5 +80,7 @@ def view_result(request):
         is_null = False
 
     return render(
-        request, "polls/scan_result.html", {"is_null": is_null, "results": scan_result}
+        request,
+        "polls/scan_result.html",
+        {"is_null": is_null, "results": scan_result, "title": "resultados"},
     )
