@@ -1,5 +1,6 @@
 # Fases del proyecto
 -- agregar sudo setcap cap_net_raw,cap_net_admin,cap_net_bind_service+eip $(which nmap)
+-- si le pasas dominios, el escanneo falla
 ##Fase 1: Configuración del Proyecto Django
 - Crear proyecto base con django-admin startproject vulnerability_manager.
 - Configurar conexión a PostgreSQL en settings.py.
