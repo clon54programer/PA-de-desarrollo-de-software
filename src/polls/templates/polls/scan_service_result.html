@@ -11,6 +11,35 @@
 
     {% if id is None %}
     <h1>La id pasada no existe</h1>
+    {% else %}
+
+    <h2>Servicio</h2>
+    {% for s in service %}
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Puerto</th>
+            <th>Estado</th>
+            <th>Version</th>
+            <th>Protocolo</th>
+            <th>Version</th>
+            <th>Version extra</th>
+            <th>Razon</th>
+            <th>Conf</th>
+            <th>Cpe</th>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+    {% endfor %}
+
+
+    <h2>Host scan</h2>
+
+
+
+
     {% endif %}
 
 
