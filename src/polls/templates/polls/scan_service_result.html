@@ -22,14 +22,21 @@
             <th>Estado</th>
             <th>Version</th>
             <th>Protocolo</th>
-            <th>Version</th>
             <th>Version extra</th>
             <th>Razon</th>
             <th>Conf</th>
             <th>Cpe</th>
         </tr>
         <tr>
-            <td></td>
+            <td>{{s.name}}</td>
+            <td>{{s.port}}</td>
+            <td>{{s.state}}</td>
+            <td>{{s.version}}</td>
+            <td>{{s.protocol}}</td>
+            <td>{{s.extraversion}}</td>
+            <td>{{s.reason}}</td>
+            <td>{{s.conf}}</td>
+            <td>{{s.cpe}}</td>
         </tr>
     </table>
     {% endfor %}
