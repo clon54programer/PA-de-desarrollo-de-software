@@ -33,6 +33,7 @@ def scan_task(dominio, puertos, flags):
             save_scan_result.dominio = dominio
             save_scan_result.data_json = json.dump(nm[dominio])
             save_scan_result.save()
+            print("[INFO] Se guardo un resultado\n" + save_scan_result)
 
     except Exception as e:
         print(f"Error en el hilo de nmap: {e}")
