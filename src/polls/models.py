@@ -40,8 +40,11 @@ class ScanResult(models.Model):
     def __str__(self):
         return f"Scan {self.dominio} - {self.fecha}"
 
-    def nmap_object_to_model(scanner):
-        # scanner es de tipo PortScanner
+    def nmap_object_to_model(scanner, domain: str):
+        # 1. Crear el registro principal del escaneo para este dominio
+        # Nota: Como 'servicio' es obligatorio en tu modelo ScanResult,
+        # primero debemos crear los servicios y luego el ScanResult.
+
         for host in scanner.all_hosts():
             hostnames = scanner[host].get("hostnames", [])
             h_name = hostnames[0]["name"] if hostnames else ""
@@ -52,29 +55,35 @@ class ScanResult(models.Model):
                 ip_address=host, defaults={"hostname": h_name, "hostname_type": h_type}
             )
 
-        for proto in self[host].all_protocols():
-            if proto not in ["tcp", "udp"]:
-                continue
+            # EL BUCLE DE PROTOCOLOS DEBE ESTAR DENTRO DEL BUCLE DE HOSTS
+            for proto in scanner[host].all_protocols():
+                if proto not in ["tcp", "udp"]:
+                    continue
 
-            lport = list(self[host][proto].keys())
-            lport.sort()
+                lport = list(scanner[host][proto].keys())
+                lport.sort()
 
-        for port in lport:
-            port_info = self[host][proto][port]
+                # EL BUCLE DE PUERTOS DEBE ESTAR DENTRO DEL DE PROTOCOLOS
+                for port in lport:
+                    port_info = scanner[host][proto][port]
 
-            # 3. Guardar el servicio asociado al host
-            ServiceResult.objects.update_or_create(
-                host_scan=host_obj,
-                protocol=proto,
-                port=port,
-                defaults={
-                    "name": port_info.get("name"),
-                    "state": port_info.get("state"),
-                    "product": port_info.get("product"),
-                    "version": port_info.get("version"),
-                    "extrainfo": port_info.get("extrainfo"),
-                    "reason": port_info.get("reason"),
-                    "conf": port_info.get("conf"),
-                    "cpe": port_info.get("cpe"),
-                },
-            )
+                    # 3. Guardar el servicio asociado al host
+                    service_obj, _ = ServiceResult.objects.update_or_create(
+                        host_scan=host_obj,
+                        protocol=proto,
+                        port=port,
+                        defaults={
+                            "name": port_info.get("name"),
+                            "state": port_info.get("state"),
+                            "product": port_info.get("product"),
+                            "version": port_info.get("version"),
+                            "extrainfo": port_info.get("extrainfo"),
+                            "reason": port_info.get("reason"),
+                            "conf": port_info.get("conf"),
+                            "cpe": port_info.get("cpe"),
+                        },
+                    )
+
+                    # 4. Crear el ScanResult (lo que verás en la web)
+                    # Vinculamos el dominio actual con el servicio encontrado
+                    ScanResult.objects.create(dominio=domain, servicio=service_obj)
