@@ -7,7 +7,8 @@ build-backend = "setuptools.build_meta"
 name = "PA-in-python"
 version = "0.1.0"
 dependencies = ["Django>=6.0.2",
-"python-nmap==0.7.1"
+"python-nmap==0.7.1",
+"django-weasyprint==2.5.0"
 ]
 requires-python = ">= 3.12"
 
