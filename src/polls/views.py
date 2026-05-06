@@ -121,9 +121,9 @@ def pdf_generate(request):
     print("[INFO] Servicio id: " + service_id)
     service = ServiceResult.objects.get(id=service_id)
 
-    result = pdf_generate(request, {"title": service.name, "service": service})
+    result = exportar_pdf(request, {"title": service.name, "service": service})
 
     response = HttpResponse(result, content_type="application/pdf")
-    filename = slugify(service.title) or "documento"
+    filename = slugify(service.name) or "documento"
     response["Content-Disposition"] = f'inline; filename="{filename}.pdf"'
     return response
