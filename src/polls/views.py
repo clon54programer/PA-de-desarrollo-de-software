@@ -6,6 +6,9 @@ from .forms import PortsAndDomionsForm
 import threading
 from .models import ScanResult, ServiceResult, HostScan
 import json
+from django.utils.text import slugify
+
+from .pdf_generate import exportar_pdf
 
 # Create your views here.
 
@@ -116,7 +119,11 @@ def pdf_generate(request):
         return render(request, "polls/404.html")
     service_id = request.GET.get("service_id", None)
     print("[INFO] Servicio id: " + service_id)
+    service = ServiceResult.objects.get(id=service_id)
+
+    result = pdf_generate(request, {"title": service.name, "service": service})
 
     response = HttpResponse(result, content_type="application/pdf")
-    response["Content-Disposition"] = 'inline; filename="factura.pdf"'
+    filename = slugify(service.title) or "documento"
+    response["Content-Disposition"] = f'inline; filename="{filename}.pdf"'
     return response
