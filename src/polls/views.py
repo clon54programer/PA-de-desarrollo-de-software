@@ -108,3 +108,15 @@ def get_services(request):
         "polls/scan_service_result.html",
         {"title": service.name, "service": service, "id": service_id},
     )
+
+
+@login_required
+def pdf_generate(request):
+    if request.method != "GET":
+        return render(request, "polls/404.html")
+    service_id = request.GET.get("service_id", None)
+    print("[INFO] Servicio id: " + service_id)
+
+    response = HttpResponse(result, content_type="application/pdf")
+    response["Content-Disposition"] = 'inline; filename="factura.pdf"'
+    return response
