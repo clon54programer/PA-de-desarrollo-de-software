@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,37 +6,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 
 <body>
+    <div class="container-md text-center">
 
-    {% if is_null %}
-    <h1>No existen resultados</h1>
-    {% else %}
-    {% for result in results %}
-    <table>
-        <tr>
-            <th>Dominio</th>
-            <th>fecha</th>
-            <th>Servicio</th>
+        {% if is_null %}
+        <h1>No existen resultados</h1>
+        {% else %}
+        <h1>Resultados</h1>
+        {% for result in results %}
+        <table>
+            <tr>
+                <th>Dominio</th>
+                <th>fecha</th>
+                <th>Servicio</th>
 
-        </tr>
-        <tr>
-            <td>{{result.dominio}}</td>
-            <td>{{result.fecha}}</td>
-            <td><a href="{% url 'service_result' %}?service_id={{result.servicio.id}}">Ver servicios detectados</a></td>
-        </tr>
-
-
-    </table>
-
-    {% endfor %}
-    {% endif %}
+            </tr>
+            <tr>
+                <td>{{result.dominio}}</td>
+                <td>{{result.fecha}}</td>
+                <td><a href="{% url 'service_result' %}?service_id={{result.servicio.id}}">Ver servicios detectados</a>
+                </td>
+            </tr>
 
 
-    <a href="{% url 'scan' %}">realizar un nuevo scan</a>
-    <br>
-    <a href="{% url 'index' %}">Volver a home</a>
+        </table>
+
+        {% endfor %}
+        {% endif %}
+
+
+        <a href="{% url 'scan' %}">realizar un nuevo scan</a>
+        <br>
+        <a href="{% url 'index' %}">Volver a home</a>
+
+    </div>
 </body>
 
 </html>
