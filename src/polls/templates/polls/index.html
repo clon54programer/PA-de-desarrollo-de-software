@@ -7,20 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my_styles.css' %}">
 </head>
 
 <body>
 
-    <div class="container-md text-center">
-        <h2>{{message}}</h2>
-    </div>
+    <div class="container-md">
+        <h2 class="text-center">{{message}}</h2>
 
 
-    <div id="actions" class="container-md">
-        <h2>Acciones</h2>
-        <div class="row align-items-center">
-            <div class="col-4"><a href="/scan">Realizar un escaneo</a></div>
-            <div class="col-4"><a href="/result">Ver resultados</a></div>
+
+        <div id="actions">
+            <h2>Acciones</h2>
+            <div class="row align-items-center">
+                <div class="col-4"><a href="/scan">Realizar un escaneo</a></div>
+                <div class="col-4"><a href="/result">Ver resultados</a></div>
+            </div>
+
         </div>
 
     </div>
