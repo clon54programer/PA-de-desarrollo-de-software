@@ -1,3 +1,13 @@
-body {
+#cont {
     background-image: url('../CyberNetLogo.jpeg');
+    /* Asegura que la imagen cubra toda la pantalla sin repetirse */
+    background-size: 850px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* El fondo se queda quieto al hacer scroll */
+
+    /* Opcional: añade un min-height para asegurar que ocupe todo el alto */
+    min-height: 100vh;
+
 }
