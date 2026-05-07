@@ -6,20 +6,30 @@ class PortsAndDomionsForm(forms.Form):
         label="Dominio",
         max_length=255,
         required=True,
-        widget=forms.TextInput(attrs={"placeholder": "ejemplo.com  o 192.168.1.1"}),
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "ejemplo.com o 192.168.1.1"}
+        ),
     )
 
     puertos = forms.CharField(
         label="Puertos",
         required=False,
-        widget=forms.Textarea(attrs={"placeholder": "80, 443, 22"}),
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": "80, 443, 22",
+                "rows": 2,  # Altura reducida
+            }
+        ),
         help_text="Lista de puertos separados por comas. Puede dejarse vacío.",
     )
 
     flags = forms.CharField(
         label="Parametros",
         required=False,
-        widget=forms.Textarea(attrs={"placeholder": "Sv,O"}),
+        widget=forms.Textarea(
+            attrs={"class": "form-control", "placeholder": "-sV -O", "rows": 2}
+        ),
         help_text="Son los parametros que utilizan nmap para realizar sus escaneos",
     )
 
