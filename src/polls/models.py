@@ -70,6 +70,7 @@ class ScanResult(models.Model):
 
                     # 3. Guardar el servicio asociado al host
                     service_obj, _ = ServiceResult.objects.update_or_create(
+                        scan_name=scan_name,
                         host_scan=host_obj,
                         protocol=proto,
                         port=port,
@@ -87,6 +88,4 @@ class ScanResult(models.Model):
 
                     # 4. Crear el ScanResult (lo que verás en la web)
                     # Vinculamos el dominio actual con el servicio encontrado
-                    ScanResult.objects.create(
-                        dominio=domain, servicio=service_obj, scan_name=scan_name
-                    )
+                    ScanResult.objects.create(dominio=domain, servicio=service_obj)
