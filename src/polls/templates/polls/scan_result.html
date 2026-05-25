@@ -19,12 +19,14 @@
         {% for result in results %}
         <table class="table text-center">
             <tr>
+                <th>Nombre del scan</th>
                 <th>Dominio</th>
                 <th>fecha</th>
                 <th>Servicio</th>
 
             </tr>
             <tr>
+                <td>{{result.servicio.scan_name|default:"Sin nombre"}}</td>
                 <td>{{result.dominio}}</td>
                 <td>{{result.fecha}}</td>
                 <td><a href="{% url 'service_result' %}?service_id={{result.servicio.id}}">Ver servicios detectados</a>
