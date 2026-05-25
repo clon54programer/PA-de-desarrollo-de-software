@@ -121,4 +121,4 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 LOGIN_REDIRECT_URL = "/"  # Puedes cambiarlo por 'dashboard', 'home', etc.
 
 # Ruta a la que se redirige tras cerrar sesión
-LOGOUT_REDIRECT_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/login"
