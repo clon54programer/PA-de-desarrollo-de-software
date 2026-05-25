@@ -2,6 +2,14 @@ from django import forms
 
 
 class PortsAndDomionsForm(forms.Form):
+    scan_name = forms.CharField(
+        label="nombre del scan",
+        max_length=120,
+        required=True,
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "scan name"}
+        ),
+    )
     dominio = forms.CharField(
         label="Dominio",
         max_length=255,
@@ -95,3 +103,6 @@ class PortsAndDomionsForm(forms.Form):
 
     def get_flags(self):
         return self.cleaned_data.get("puertos")
+
+    def get_scan_name(self):
+        return self.cleaned_data.get("scan_name", None)
