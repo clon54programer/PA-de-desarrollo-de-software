@@ -15,6 +15,7 @@ class ServiceResult(models.Model):
     host_scan = models.ForeignKey(
         HostScan, on_delete=models.CASCADE, related_name="services"
     )
+    scan_name = models.CharField(max_length=120)
     protocol = models.CharField(max_length=10)  # tcp o udp
     port = models.IntegerField()
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -40,7 +41,7 @@ class ScanResult(models.Model):
     def __str__(self):
         return f"Scan {self.dominio} - {self.fecha}"
 
-    def nmap_object_to_model(scanner, domain: str):
+    def nmap_object_to_model(scanner, domain: str, scan_name: str):
         # 1. Crear el registro principal del escaneo para este dominio
         # Nota: Como 'servicio' es obligatorio en tu modelo ScanResult,
         # primero debemos crear los servicios y luego el ScanResult.
@@ -86,4 +87,6 @@ class ScanResult(models.Model):
 
                     # 4. Crear el ScanResult (lo que verás en la web)
                     # Vinculamos el dominio actual con el servicio encontrado
-                    ScanResult.objects.create(dominio=domain, servicio=service_obj)
+                    ScanResult.objects.create(
+                        dominio=domain, servicio=service_obj, scan_name=scan_name
+                    )
