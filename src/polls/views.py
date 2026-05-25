@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import nmap
 from .forms import PortsAndDomionsForm
@@ -15,7 +15,7 @@ from .pdf_generate import exportar_pdf
 
 def index(request):
     if not request.user.is_authenticated:
-        return render(request, "polls/404.html")
+        return redirect("/")
     return render(
         request,
         "polls/index.html",
