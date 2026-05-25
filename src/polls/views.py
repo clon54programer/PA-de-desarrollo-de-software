@@ -27,7 +27,25 @@ def scan_task(dominio, puertos, flags, scan_name):
     print(f"--- Iniciando escaneo de fondo para {dominio} ---")
     nm = nmap.PortScanner()
     try:
-        nm.scan(hosts=dominio, ports=puertos, arguments=flags)
+        puertos_str = ""
+        if isinstance(puertos, list):
+            # Convertimos cada elemento a str por si vienen como enteros [80, 443]
+            puertos_str = ",".join(str(p) for p in puertos)
+        else:
+            puertos_str = str(puertos)
+
+        if isinstance(flags, list):
+            flags_str = " ".join(str(f) for f in flags)
+        elif flags is None:
+            flags_str = ""
+        else:
+            flags_str = str(flags)
+
+        # Imprime esto en tu consola para verificar qué le estás mandando exactamente a Nmap
+        print(f"[DEBUG] Puertos: {puertos_str} | Flags: '{flags_str}'")
+        print(f"puertos_str: {puertos_str}")
+
+        nm.scan(hosts=dominio, ports=puertos_str, arguments=flags_str)
         # Aquí es donde guardarías en la base de datos en un proyecto real
         print(f"--- Escaneo finalizado para {dominio} {scan_name} ---")
         print(nm[dominio].get("tcp", {}))
