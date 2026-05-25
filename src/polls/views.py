@@ -23,16 +23,16 @@ def index(request):
     )
 
 
-def scan_task(dominio, puertos, flags):
+def scan_task(dominio, puertos, flags, scan_name):
     print(f"--- Iniciando escaneo de fondo para {dominio} ---")
     nm = nmap.PortScanner()
     try:
         nm.scan(hosts=dominio, ports=puertos, arguments=flags)
         # Aquí es donde guardarías en la base de datos en un proyecto real
-        print(f"--- Escaneo finalizado para {dominio} ---")
+        print(f"--- Escaneo finalizado para {dominio} {scan_name} ---")
         print(nm[dominio].get("tcp", {}))
 
-        ScanResult.nmap_object_to_model(nm, dominio)
+        ScanResult.nmap_object_to_model(nm, dominio, scan_name)
         print("[INFO] Se guardo un resultado")
 
     except Exception as e:
@@ -64,8 +64,11 @@ def scanner(request):
         dominio = form.get_dominio()
         puertos = form.get_ports()
         flags = form.get_flags() or ""
+        scan_name = form.get_scan_name()
 
-        hilo = threading.Thread(target=scan_task, args=(dominio, puertos, flags))
+        hilo = threading.Thread(
+            target=scan_task, args=(dominio, puertos, flags, scan_name)
+        )
         # Lo iniciamos (no bloquea la vista)
         hilo.start()
         return render(request, "polls/scan_peding.html", {"dominio": dominio})
