@@ -13,6 +13,19 @@
 <body>
 
     <div class="container-md" id="cont">
+
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">CyberNet: Los riesgos ciberniticos no esperan, ¡protegete de las
+                    amenazas!</a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            </div>
+        </nav>
         <h2 class="text-center">{{message}}</h2>
 
 
