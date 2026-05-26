@@ -160,23 +160,25 @@ def view_result(request):
 def get_services(request):
     if request.method != "GET":
         return render(request, "polls/404.html")
-    services_id = request.GET.getlist("service_id", None)
-    print("[INFO] Servicio id: " + services_id)
+    service_id = request.GET.getlist("service_id", None)
+    print(f"[INFO] Servicio id: {service_id}")
 
-    if services_id == None:
+    if service_id == None:
         return render(
             request,
             "polls/scan_service_result.html",
             {"title": "error", "id": None},
         )
 
-    service = ServiceResult.objects.filter(id__in=services_id)
+    services = ServiceResult.objects.filter(id__in=service_id)
+
+    first_service = services[0]
 
     # Aquí podrías usar esa info para filtrar tu base de datos
     return render(
         request,
         "polls/scan_service_result.html",
-        {"title": service.name, "service": service, "id": service_id},
+        {"title": first_service.scan_name, "services": services, "id": service_id},
     )
 
 
