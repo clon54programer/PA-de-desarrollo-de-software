@@ -26,10 +26,12 @@
 
             </tr>
             <tr>
-                <td>{{result.servicio.scan_name|default:"Sin nombre"}}</td>
+                <td>{{result.scan_name}}</td>
                 <td>{{result.dominio}}</td>
                 <td>{{result.fecha}}</td>
-                <td><a href="{% url 'service_result' %}?service_id={{result.servicio.id}}">Ver servicios detectados</a>
+                <td><a
+                        href="{% url 'service_result' %}?{% for id in result.service_ids %}service_id={{ id }}{% if not forloop.last %}&{% endif %}{% endfor %}">Ver
+                        servicios detectados</a>
                 </td>
             </tr>
 
@@ -39,7 +41,7 @@
         {% endfor %}
         {% endif %}
         <br>
-        <div class="row justify-content-between">
+        <div class=" row justify-content-between">
             <div class="col-4"><a href="{% url 'scan' %}">realizar un nuevo scan</a></div>
 
             <div class="col-4"><a href="{% url 'index' %}">Volver a home</a></div>
