@@ -99,15 +99,60 @@ def scanner(request):
 def view_result(request):
     if request.method != "GET":
         return render(request, "polls/404.html")
-    scan_result = ScanResult.objects.all()
+    exists = ScanResult.objects.all()
     is_null = True
-    if scan_result != None:
+    if exists != None:
         is_null = False
+
+    scan_results = ScanResult.objects.select_related("servicio").all()
+
+    results = []
+    agrupados = {}
+
+    # 1. Procesamos los escaneos que SÍ tienen un nombre real
+    # Filtramos accediendo a scan_name a través de la relación 'servicio'
+    escaneos_con_nombre = scan_results.exclude(servicio__scan_name="Sin nombre")
+
+    for r in escaneos_con_nombre:
+        # Extraemos el nombre del scan desde el modelo ServiceResult
+        nombre_scan = r.servicio.scan_name
+
+        if nombre_scan not in agrupados:
+            # Si es el primer servicio que vemos con este nombre de scan, inicializamos el grupo
+            agrupados[nombre_scan] = {
+                "scan_name": nombre_scan,
+                "dominio": r.dominio,
+                "fecha": r.fecha,
+                "service_ids": [
+                    str(r.servicio.id)
+                ],  # Guardamos el ID del ServiceResult
+            }
+        else:
+            # Si ya existe el grupo (mismo scan_name), añadimos el ID del nuevo servicio detectado
+            agrupados[nombre_scan]["service_ids"].append(str(r.servicio.id))
+
+    # Metemos los escaneos agrupados a la lista final
+    results.extend(agrupados.values())
+
+    # 2. Procesamos los escaneos "Sin nombre" de forma individual (sin agrupar)
+    escaneos_sin_nombre = scan_results.filter(servicio__scan_name="Sin nombre")
+
+    for r in escaneos_sin_nombre:
+        results.append(
+            {
+                "scan_name": "Sin nombre",
+                "dominio": r.dominio,
+                "fecha": r.fecha,
+                "service_ids": [str(r.servicio.id)],  # Va solo su propio ID de servicio
+            }
+        )
+
+    print(f"[debug] results: {results}")
 
     return render(
         request,
         "polls/scan_result.html",
-        {"is_null": is_null, "results": scan_result, "title": "resultados"},
+        {"is_null": is_null, "results": results, "title": "resultados"},
     )
 
 
@@ -115,17 +160,17 @@ def view_result(request):
 def get_services(request):
     if request.method != "GET":
         return render(request, "polls/404.html")
-    service_id = request.GET.get("service_id", None)
-    print("[INFO] Servicio id: " + service_id)
+    services_id = request.GET.getlist("service_id", None)
+    print("[INFO] Servicio id: " + services_id)
 
-    if service_id == None:
+    if services_id == None:
         return render(
             request,
             "polls/scan_service_result.html",
             {"title": "error", "id": None},
         )
 
-    service = ServiceResult.objects.get(id=service_id)
+    service = ServiceResult.objects.filter(id__in=services_id)
 
     # Aquí podrías usar esa info para filtrar tu base de datos
     return render(
