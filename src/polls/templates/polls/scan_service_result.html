@@ -85,8 +85,7 @@
         <br>
         <div class="row justify-content-between">
 
-            <div class="col-4"><a href="{% url 'pdf_generate' %}?{% for a in id %}service_id={{ a }}{%
-                    if not forloop.last %}&{% endif %}{% endfor %}">Generar pdf</a></div>
+            <div class="col-4"><a href="{% url 'pdf_generate' %}?service_id={{ id|join:'&service_id=' }}">Generar pdf</a></div>
             <div class="col-4"><a href="{% url 'result' %}">Retornar a los resultados</a></div>
             <div class="col-4"><a href="{% url 'index' %}">Volver a home</a></div>
 
