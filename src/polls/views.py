@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+import ast
 from django.contrib.auth.decorators import login_required
 import nmap
 from .forms import PortsAndDomionsForm
@@ -186,13 +187,38 @@ def get_services(request):
 def pdf_generate(request):
     if request.method != "GET":
         return render(request, "polls/404.html")
-    service_id = request.GET.get("service_id", None)
-    print("[INFO] Servicio id: " + service_id)
-    service = ServiceResult.objects.get(id=service_id)
+    # 1. Capturamos lo que viene por la URL
+    raw_service_ids = request.GET.getlist("service_id")
+    print(f"[DEBUG] Entrada cruda desde URL: {raw_service_ids}")
 
-    result = exportar_pdf(request, {"title": service.name, "service": service})
+    service_ids = []
+
+    # 2. --- LIMPIADOR ANTIBUGS ---
+    for item in raw_service_ids:
+        # Si el item empieza con '[' (ej: "['10', '11']"), es un string simulando una lista
+        if item.startswith("[") and item.endswith("]"):
+            try:
+                # ast.literal_eval convierte el string "['10', '11']" en una lista real ['10', '11'] de forma segura
+                parsed_list = ast.literal_eval(item)
+                if isinstance(parsed_list, list):
+                    service_ids.extend([str(i) for i in parsed_list])
+            except (ValueError, SyntaxError):
+                pass
+        else:
+            # Si viene como un ID limpio normal (ej: "10"), lo añadimos directo
+            service_ids.append(item)
+
+    print(f"[INFO] IDs procesados y limpios para SQL: {service_ids}")
+
+    # 3. Hacemos la consulta con la lista ya desinfectada
+    services = ServiceResult.objects.filter(id__in=service_ids)
+    first_service = services[0]
+
+    result = exportar_pdf(
+        request, {"title": first_service.scan_name, "services": services}
+    )
 
     response = HttpResponse(result, content_type="application/pdf")
-    filename = slugify(service.name) or "documento"
+    filename = slugify(first_service.name) or "documento"
     response["Content-Disposition"] = f'inline; filename="{filename}.pdf"'
     return response
