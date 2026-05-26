@@ -15,7 +15,7 @@ from .pdf_generate import exportar_pdf
 
 def index(request):
     if not request.user.is_authenticated:
-        return redirect("/")
+        return redirect("/login")
     return render(
         request,
         "polls/index.html",
