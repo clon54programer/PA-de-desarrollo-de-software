@@ -27,9 +27,10 @@ def scan_task(dominio, puertos, flags, scan_name):
     print(f"--- Iniciando escaneo de fondo para {dominio} ---")
     nm = nmap.PortScanner()
     try:
-        puertos_str = ""
-        if isinstance(puertos, list):
-            # Convertimos cada elemento a str por si vienen como enteros [80, 443]
+
+        if not puertos or puertos == "None":
+            puertos_str = None
+        elif isinstance(puertos, list):
             puertos_str = ",".join(str(p) for p in puertos)
         else:
             puertos_str = str(puertos)
