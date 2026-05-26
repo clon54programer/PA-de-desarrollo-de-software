@@ -25,7 +25,9 @@ def exportar_pdf(request, data):
     html_string = render_to_string("polls/pdf_template.html", data)
 
     # 2. Genera el PDF
-    html = HTML(string=html_string, base_url=request.build_absolute_uri())
+    ruta_limpia = request.build_absolute_uri(request.path)
+
+    html = HTML(string=html_string, base_url=ruta_limpia)
     result = html.write_pdf()
 
     return result
