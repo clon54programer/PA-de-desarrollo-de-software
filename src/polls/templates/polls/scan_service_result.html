@@ -17,8 +17,8 @@
         <h1>La id pasada no existe</h1>
         {% else %}
 
-        <h2>Servicio</h2>
-
+        <h2>Servicios</h2>
+        {% for service in services %}
         <table class="table">
             <tr>
                 <th>Nombre</th>
@@ -75,6 +75,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% endfor %}
 
 
 
