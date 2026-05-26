@@ -12,7 +12,7 @@
 <body>
     <div class="container-md">
         <h2 class="text-center"> Reporte de {{title}} de parte de CyberNet</h2>
-
+        {% for service in services %}
         <table class="table table-bordered" class="text-center">
             <tr>
                 <th>Nombre</th>
@@ -69,6 +69,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% endfor %}
     </div>
 </body>
 
