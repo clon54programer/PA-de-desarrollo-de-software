@@ -41,7 +41,25 @@ class ScanResult(models.Model):
     def __str__(self):
         return f"Scan {self.dominio} - {self.fecha}"
 
-    def nmap_object_to_model(scanner, domain: str, scan_name: str):
+    def get_cve(name: str) -> str | None:
+        if name.lower() == "vsftpd":
+            return "cpe:2.3:a:vsftpd_project:vsftpd:2.3.4:"
+
+        if name.lower() == "openssh":
+            return "cpe:2.3:a:openbsd:openssh:4.7:p1:"
+
+        if name.lower() == "bind":
+            return "cpe:2.3:a:isc:bind:9.4.2:"
+
+        if name.lower() == "samba":
+            return "cpe:2.3:a:samba:samba:3.0.20:"
+
+        if name.lower() == "postgresql":
+            return "cpe:2.3:a:postgresql:postgresql:"
+
+        return None
+
+    def nmap_object_to_model(scanner, domain: str, scan_name: str, cve: bool = False):
         # 1. Crear el registro principal del escaneo para este dominio
         # Nota: Como 'servicio' es obligatorio en tu modelo ScanResult,
         # primero debemos crear los servicios y luego el ScanResult.
@@ -69,6 +87,11 @@ class ScanResult(models.Model):
                     port_info = scanner[host][proto][port]
 
                     # 3. Guardar el servicio asociado al host
+                    _cve = None
+                    if cve:
+                        _cve = ScanResult.get_cve(port_info.get("name"))
+                    else:
+                        port_info.get("cpe")
                     service_obj, _ = ServiceResult.objects.update_or_create(
                         scan_name=scan_name,
                         host_scan=host_obj,
@@ -82,7 +105,7 @@ class ScanResult(models.Model):
                             "extrainfo": port_info.get("extrainfo"),
                             "reason": port_info.get("reason"),
                             "conf": port_info.get("conf"),
-                            "cpe": port_info.get("cpe"),
+                            "cpe": _cve,
                         },
                     )
 
