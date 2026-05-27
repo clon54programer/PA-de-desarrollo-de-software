@@ -4,71 +4,293 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>{{ title }}</title>
+    <style>
+        /* Configuración de Página Impresa (Soporte nativo PDF / WeasyPrint / xhtml2pdf) */
+        @page {
+            size: A4;
+            margin: 20mm 15mm 20mm 15mm;
+            background-color: #ffffff;
+
+            @bottom-right {
+                content: "Página " counter(page) " de " counter(pages);
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 8pt;
+                color: #64748b;
+            }
+
+            @bottom-left {
+                content: "CyberNet Security Report — Confidencial";
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 8pt;
+                font-weight: bold;
+                color: #64748b;
+            }
+        }
+
+        /* Reset general para control milimétrico del PDF */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #1e293b;
+            background-color: #ffffff;
+        }
+
+        /* Banner Superior Corporativo (Efecto sangrado completo usando márgenes negativos) */
+        .company-header {
+            margin: -20mm -15mm 25px -15mm;
+            padding: 25px 15mm 20px 15mm;
+            background-color: #0f172a;
+            /* Azul pizarra oscuro corporativo */
+            color: #ffffff;
+            border-bottom: 4px solid #0f766e;
+            /* Acento verde azulado de ciberseguridad */
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .header-table td {
+            padding: 0;
+            vertical-align: middle;
+            border: none !important;
+        }
+
+        .logo-container {
+            width: 50px;
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            display: block;
+        }
+
+        .company-info {
+            padding-left: 15px;
+        }
+
+        .company-name {
+            font-size: 16pt;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .company-subtitle {
+            font-size: 9pt;
+            color: #94a3b8;
+            margin: 2px 0 0 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .report-meta {
+            text-align: right;
+            font-size: 9pt;
+            color: #94a3b8;
+        }
+
+        .report-meta strong {
+            color: #ffffff;
+        }
+
+        /* Contenedor Principal */
+        .container-md {
+            width: 100%;
+        }
+
+        /* Encabezados de Secciones */
+        .main-title {
+            font-size: 15pt;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #0f766e;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            page-break-after: avoid;
+            /* Evita que el título quede huérfano al final de la página */
+        }
+
+        /* Tablas Corporativas Elegantes */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+            /* Evita que una fila se parta a la mitad de forma extraña */
+        }
+
+        .table th {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+            font-size: 9pt;
+            text-transform: uppercase;
+            padding: 8px 10px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+        }
+
+        .table td {
+            padding: 8px 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 9.5pt;
+            vertical-align: middle;
+            color: #334155;
+        }
+
+        /* Cebra para filas secundarias */
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f8fafc;
+        }
+
+        /* Reemplazo nativo de clases utilitarias de Bootstrap */
+        .text-center {
+            text-align: center !important;
+        }
+
+        .table th.text-center,
+        .table td.text-center {
+            text-align: center !important;
+        }
+
+        /* Badges estilizados */
+        .badge {
+            display: inline-block;
+            padding: 3px 7px;
+            font-size: 8pt;
+            font-weight: 700;
+            line-height: 1;
+            color: #0f766e;
+            background-color: #ccfbf1;
+            border: 1px solid #99f6e4;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        /* Resaltado de IPs */
+        .ip-highlight {
+            font-family: Monaco, Consolas, monospace;
+            color: #0f172a;
+            font-weight: bold;
+        }
+
+        .service-block {
+            margin-bottom: 35px;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="company-header">
+        <table class="header-table">
+            <tr>
+                <td class="logo-container">
+                    <img class="logo-img" src="{% static 'CyberNetLogo.jpeg' %}" alt="CyberNet Logo"
+                        onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjxjaXJjbGUgY3g9IjUwIiBjeT0iTTAiIHI9IjQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiMxZTI5M2IiIHN0cm9rZS13aWR0aD0iNiIvPjxwYXRoIGQ9Ik0zMCAzNSBMNTAgMjAgTDcwIDM1IEw3MCA2NSBMNTAgODAgTDMwIDY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzBmNzY2ZSIgc3Ryb2tlLXdpZHRoPSI0Ii8+PGNpcmNsZSBjeD0iUzAiIGN5PSI1MCIgcj0iMTAiIGZpbGw9IiMwZjc2NmUiLz48L3N2Zz4='">
+                </td>
+                <td class="company-info">
+                    <h1 class="company-name">CYBERNET</h1>
+                    <p class="company-subtitle">Los riesgos cibernéticos no esperan, ¡protégete de las amenazas!</p>
+                </td>
+                <td class="report-meta">
+                    Reporte Técnico del Sistema<br>
+                    Generado el: <strong>{% now "d/m/Y" %}</strong>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <div class="container-md">
-        <h2 class="text-center"> Reporte de {{title}} de parte de CyberNet</h2>
+        <h2 class="main-title">Reporte de {{ title }} de parte de CyberNet</h2>
+
         {% for service in services %}
-        <table class="table table-bordered" class="text-center">
-            <tr>
-                <th>Nombre</th>
-                <th>Puerto</th>
-                <th>Estado</th>
-                <th>Version</th>
-                <th>Protocolo</th>
-                <th>Version extra</th>
-                <th>Razon</th>
-                <th>Conf</th>
-                <th>Cpe</th>
-            </tr>
-            <tr>
-                <td>{{service.name}}</td>
-                <td>{{service.port}}</td>
-                <td>{{service.state}}</td>
-                <td>{{service.version}}</td>
-                <td>{{service.protocol}}</td>
-                <td>{{service.extraversion}}</td>
-                <td>{{service.reason}}</td>
-                <td>{{service.conf}}</td>
-                <td>{{service.cpe}}</td>
-            </tr>
-        </table>
+        <div class="service-block">
+            <h3 class="section-title">Detalles del Servicio: {{ service.name }}</h3>
 
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Puerto</th>
+                        <th class="text-center">Estado</th>
+                        <th class="text-center">Versión</th>
+                        <th class="text-center">Protocolo</th>
+                        <th class="text-center">Versión Extra</th>
+                        <th class="text-center">Razón</th>
+                        <th class="text-center">Conf</th>
+                        <th class="text-center">CPE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center"><strong>{{ service.name }}</strong></td>
+                        <td class="text-center">{{ service.port }}</td>
+                        <td class="text-center">{{ service.state }}</td>
+                        <td class="text-center">{{ service.version|default:"---" }}</td>
+                        <td class="text-center">{{ service.protocol }}</td>
+                        <td class="text-center">{{ service.extraversion|default:"---" }}</td>
+                        <td class="text-center">{{ service.reason }}</td>
+                        <td class="text-center">{{ service.conf }}</td>
+                        <td class="text-center"><code>{{ service.cpe|default:"---" }}</code></td>
+                    </tr>
+                </tbody>
+            </table>
 
-
-        <h2 class="text-center">Host scan</h2>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Dirección IP</th>
-                    <th>Hostname</th>
-                    <th>Tipo de Host</th>
-                    <th>Fecha de Escaneo</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for scan in service.host_scans %}
-                <tr>
-                    <td><strong>{{ scan.ip_address }}</strong></td>
-                    <td>{{ scan.hostname|default:"---" }}</td>
-                    <td>
-                        <span class="badge">{{ scan.hostname_type|upper|default:"N/A" }}</span>
-                    </td>
-                    <td>{{ scan.scan_date|date:"d/m/Y H:i" }}</td>
-
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" style="text-align: center;">No se encontraron escaneos realizados o nmap no detecto
-                        ningun host scan.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            <h3 class="section-title">Host Scan Relacionados</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Dirección IP</th>
+                        <th>Hostname</th>
+                        <th>Tipo de Host</th>
+                        <th class="text-center">Fecha de Escaneo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scan in service.host_scans %}
+                    <tr>
+                        <td class="ip-highlight">{{ scan.ip_address }}</td>
+                        <td>{{ scan.hostname|default:"---" }}</td>
+                        <td>
+                            <span class="badge">{{ scan.hostname_type|upper|default:"N/A" }}</span>
+                        </td>
+                        <td class="text-center">{{ scan.scan_date|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center" style="color: #64748b; font-style: italic;">
+                            No se encontraron escaneos realizados o Nmap no detectó ningún host scan.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% endfor %}
     </div>
 </body>
