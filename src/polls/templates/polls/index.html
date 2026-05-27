@@ -16,8 +16,8 @@
 
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">CyberNet: Los riesgos ciberniticos no esperan, ¡protegete de las
-                    amenazas!</a>
+                <h1 class="navbar-brand" href="#">CyberNet: Los riesgos ciberniticos no esperan, ¡protegete de las
+                    amenazas!</h1>
                 <form action="{% url 'logout' %}" method="post" style="display: inline;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">
@@ -33,8 +33,13 @@
         <div id="actions">
             <h2>Acciones</h2>
             <div class="row justify-content-around">
-                <div class="col-4"><a href="/scan">Realizar un escaneo</a></div>
-                <div class="col-4"><a href="/result">Ver resultados</a></div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-info"> <a class="actions" href="/scan">Realizar un
+                            escaneo</a></button>
+                </div>
+
+                <div class="col-4"><button type="button" class="btn btn-info"><a class="actions" href="/result">Ver
+                            resultados</a></button></div>
             </div>
 
         </div>
