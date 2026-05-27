@@ -42,9 +42,21 @@
         {% endif %}
         <br>
         <div class=" row justify-content-between">
-            <div class="col-4"><a href="{% url 'scan' %}">realizar un nuevo scan</a></div>
+            <div class="col-4">
+                <button type="button" class="btn btn-primary"><a
+                        class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        href="{% url 'scan' %}">realizar un
+                        nuevo
+                        scan</a></button>
 
-            <div class="col-4"><a href="{% url 'index' %}">Volver a home</a></div>
+            </div>
+
+            <div class="col-4">
+                <button type="button" class="btn btn-primary"><a
+                        class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        href="{% url 'index' %}">Volver a home</a></button>
+
+            </div>
 
         </div>
 
