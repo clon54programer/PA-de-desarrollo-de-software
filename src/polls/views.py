@@ -42,9 +42,10 @@ def scan_task(dominio, puertos, flags, scan_name):
             flags_str = ""
         else:
             flags_str = str(flags)
-
+        cve = False
         if flags_str == "-sVe":
             flags_str = "-sV"
+            cve = True
             print("[debug] La opcion avanzada")
 
         # Imprime esto en tu consola para verificar qué le estás mandando exactamente a Nmap
@@ -56,7 +57,7 @@ def scan_task(dominio, puertos, flags, scan_name):
         print(f"--- Escaneo finalizado para {dominio} {scan_name} ---")
         print(nm[dominio].get("tcp", {}))
 
-        ScanResult.nmap_object_to_model(nm, dominio, scan_name)
+        ScanResult.nmap_object_to_model(nm, dominio, scan_name, cve=cve)
         print("[INFO] Se guardo un resultado")
 
     except Exception as e:
