@@ -32,13 +32,19 @@ class PortsAndDomionsForm(forms.Form):
         help_text="Lista de puertos separados por comas. Puede dejarse vacío.",
     )
 
-    flags = forms.CharField(
-        label="Parametros",
+    OPCIONES_NMAP = [
+        ("", "Selecciona una opción..."),  # Opción por defecto vacía
+        ("-sV", "Escaneo de servicios basico"),
+        ("-sVe", "Escaneo de servicios avanzando"),
+    ]
+
+    flags = forms.ChoiceField(
+        label="Parámetros",
         required=False,
-        widget=forms.Textarea(
-            attrs={"class": "form-control", "placeholder": "-sV -O", "rows": 2}
-        ),
-        help_text="Son los parametros que utilizan nmap para realizar sus escaneos",
+        choices=OPCIONES_NMAP,
+        # Usamos form-select que es la clase nativa de Bootstrap para los select
+        widget=forms.Select(attrs={"class": "form-select"}),
+        help_text="Son los parámetros que utiliza nmap para realizar sus escaneos",
     )
 
     def clean_flags(self):
