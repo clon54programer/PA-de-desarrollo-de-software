@@ -85,9 +85,28 @@
         <br>
         <div class="row justify-content-between">
 
-            <div class="col-4"><a href="{% url 'pdf_generate' %}?service_id={{ id|join:'&service_id=' }}">Generar pdf</a></div>
-            <div class="col-4"><a href="{% url 'result' %}">Retornar a los resultados</a></div>
-            <div class="col-4"><a href="{% url 'index' %}">Volver a home</a></div>
+            <div class="col-4">
+                <button type="button" class="btn btn-warning"><a
+                        class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        href="{% url 'pdf_generate' %}?service_id={{ id|join:'&service_id=' }}">Generar pdf</a></button>
+            </div>
+            <div class="col-4">
+                <button type="button" class="btn btn-secondary">
+                    <a class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        href="{% url 'result' %}">Retornar a los resultados</a>
+
+                </button>
+            </div>
+            <div class="col-4">
+                <button type="button" class="btn btn-secondary"><a
+                        class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        href="{% url 'index' %}">
+
+
+                        Volver a home</a>
+
+                </button>
+            </div>
 
         </div>
 
