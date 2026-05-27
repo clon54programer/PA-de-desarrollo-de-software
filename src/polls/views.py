@@ -43,6 +43,10 @@ def scan_task(dominio, puertos, flags, scan_name):
         else:
             flags_str = str(flags)
 
+        if flags_str == "-sVe":
+            flags_str = "-sV"
+            print("[debug] La opcion avanzada")
+
         # Imprime esto en tu consola para verificar qué le estás mandando exactamente a Nmap
         print(f"[DEBUG] Puertos: {puertos_str} | Flags: '{flags_str}'")
         print(f"puertos_str: {puertos_str}")
